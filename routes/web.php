@@ -17,6 +17,8 @@ Route::get('dashboard', function () {
 Route::prefix('guest')->group(function(){
     Route::get('showProjectsPublicly', [GuestController::class, 'showProjectsPublicly'])->name('showProjectsPublicly');
     Route::get('projects/view/{id}', [GuestController::class, 'showProjectPublicly'])->name('project.show.publicly');
+    Route::get('/projects/{id}/searchPublic', [GuestController::class, 'searchDatasetsPublic'])->name('projectDatasets.searchPublic');
+
 });
 
 
@@ -41,5 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('projects/dataset/{id}', [DatasetController::class, 'deleteDataset'])->name('deleteDataset');
     Route::get('projects/dataset/{id}', [DatasetController::class, 'showEditDataset'])->name('showEditDataset');
     Route::put('projects/dataset/update/{id}', [DatasetController::class, 'updateDataset'])->name('updateDataset');
+
+    Route::get('/project/{project}/search', [DatasetController::class, 'searchDatasets'])->name('projectDatasets.search');
+
 
 });

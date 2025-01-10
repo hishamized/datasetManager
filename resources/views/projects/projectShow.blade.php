@@ -139,6 +139,43 @@
         @endauth
     </div>
 
+    <!-- Search section starts -->
+
+    <!-- Search Form -->
+    <form class="m-4" action="{{ route('projectDatasets.search', $project->id) }}" method="GET" class="mb-4">
+        <div class="row">
+            <!-- Search String Input -->
+            <div class="col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="Enter search string..." value="{{ request()->get('search') }}">
+            </div>
+
+            <!-- Column Select Input -->
+            <div class="col-md-3">
+                <select name="column" class="form-control">
+                    <option value="all">All Columns</option>
+                    <option value="serialNumber" {{ request()->get('column') == 'serialNumber' ? 'selected' : '' }}>Serial Number</option>
+                    <option value="dataset" {{ request()->get('column') == 'dataset' ? 'selected' : '' }}>Dataset</option>
+                    <option value="year" {{ request()->get('column') == 'year' ? 'selected' : '' }}>Year</option>
+                    <option value="kindOfTraffic" {{ request()->get('column') == 'kindOfTraffic' ? 'selected' : '' }}>Kind of Traffic</option>
+                    <option value="publicallyAvailable" {{ request()->get('column') == 'publicallyAvailable' ? 'selected' : '' }}>Publically Available</option>
+                    <option value="countRecords" {{ request()->get('column') == 'countRecords' ? 'selected' : '' }}>Count of Records</option>
+                    <option value="featuresCount" {{ request()->get('column') == 'featuresCount' ? 'selected' : '' }}>Features Count</option>
+                    <option value="doi" {{ request()->get('column') == 'doi' ? 'selected' : '' }}>DOI</option>
+                    <option value="downloadLinks" {{ request()->get('column') == 'downloadLinks' ? 'selected' : '' }}>Download Links</option>
+                    <option value="abstract" {{ request()->get('column') == 'abstract' ? 'selected' : '' }}>Abstract</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-flex col-md-1">
+                <button type="submit" class="btn btn-primary mx-2">Search</button>
+                <!-- Reset button -->
+                <a href="{{ route('project.show', $project->id) }}" class="btn btn-danger mx-2">Reset</a>
+            </div>
+        </div>
+    </form>
+    <!-- Search section ends -->
+
     <div class="table-responsive mt-4">
         <table class="table table-hover table-bordered table-striped">
             <thead class="thead-dark">

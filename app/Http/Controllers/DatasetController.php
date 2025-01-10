@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Dataset;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Project;
 
 class DatasetController extends Controller
 {
@@ -104,4 +105,38 @@ class DatasetController extends Controller
             return redirect()->back()->with('error', 'Failed to update dataset. Please try again.');
         }
     }
+
+    public function searchDatasets(Request $request, Project $project)
+{
+
+    $searchString = $request->input('search');
+    $column = $request->input('column');
+
+
+    if ($column === 'all') {
+        $datasets = Dataset::where('project_id', $project->id)
+            ->where(function ($query) use ($searchString) {
+                $query->where('serialNumber', 'LIKE', "%$searchString%")
+                    ->orWhere('dataset', 'LIKE', "%$searchString%")
+                    ->orWhere('year', 'LIKE', "%$searchString%")
+                    ->orWhere('kindOfTraffic', 'LIKE', "%$searchString%")
+                    ->orWhere('publicallyAvailable', 'LIKE', "%$searchString%")
+                    ->orWhere('countRecords', 'LIKE', "%$searchString%")
+                    ->orWhere('featuresCount', 'LIKE', "%$searchString%")
+                    ->orWhere('doi', 'LIKE', "%$searchString%")
+                    ->orWhere('downloadLinks', 'LIKE', "%$searchString%")
+                    ->orWhere('abstract', 'LIKE', "%$searchString%");
+            })
+            ->get();
+    } else {
+
+        $datasets = Dataset::where('project_id', $project->id)
+            ->where($column, 'LIKE', "%$searchString%")
+            ->get();
+    }
+
+
+    return view('projects.projectShow', compact('project', 'datasets'));
+}
+
 }

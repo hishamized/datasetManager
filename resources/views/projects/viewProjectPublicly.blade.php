@@ -47,6 +47,33 @@
         </div>
     </div>
 
+    <form class="m-4" action="{{ route('projectDatasets.searchPublic', $project->id) }}" method="GET">
+        @csrf
+        <!-- Search Input -->
+        <input type="text" name="search" placeholder="Search datasets..." class="form-control mb-2">
+
+        <!-- Column Selection Dropdown -->
+        <select name="column" class="form-control mb-2">
+            <option value="all">All Columns</option>
+            <option value="serialNumber">Serial Number</option>
+            <option value="dataset">Dataset</option>
+            <option value="year">Year</option>
+            <option value="kindOfTraffic">Kind of Traffic</option>
+            <option value="publicallyAvailable">Publicly Available</option>
+            <option value="countRecords">Count of Records</option>
+            <option value="featuresCount">Features Count</option>
+            <option value="doi">DOI</option>
+            <option value="downloadLinks">Download Links</option>
+            <option value="abstract">Abstract</option>
+        </select>
+
+        <!-- Search Button -->
+        <button type="submit" class="btn btn-primary">Search</button>
+        <!-- Reset button -->
+        <a href="{{ route('project.show.publicly', $project->id) }}" class="btn btn-danger">Reset</a>
+    </form>
+
+
     <div class="table-responsive mt-4">
         <table class="table table-hover table-bordered table-striped">
             <thead class="thead-dark">
