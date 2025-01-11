@@ -36,7 +36,7 @@
     @auth
     <div class="container">
         <button class="btn btn-primary mb-4" id="toggleFormBtn">Add Dataset</button>
-
+         <a href="{{ route('manageContributionRequests', $project->id) }}" class="btn btn-danger mb-4">Contribution Requests</a>
     </div>
     <div id="datasetForm" style="display: none;">
         <form action="{{ route('dataset.store') }}" method="POST">

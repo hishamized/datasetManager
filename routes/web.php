@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DatasetController;
 use App\Http\Controllers\GuestController;
+use App\Models\ContributionRequest;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +20,8 @@ Route::prefix('guest')->group(function(){
     Route::get('projects/view/{id}', [GuestController::class, 'showProjectPublicly'])->name('project.show.publicly');
     Route::get('/projects/{id}/searchPublic', [GuestController::class, 'searchDatasetsPublic'])->name('projectDatasets.searchPublic');
 
+    Route::get('projects/makeContributionRequest/{id}', [GuestController::class, 'makeContributionRequest'])->name('makeContributionRequest');
+    Route::post('projects/contributionRequest', [GuestController::class, 'submitContributionRequest'])->name('contribution.submit');
 });
 
 
@@ -45,6 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::put('projects/dataset/update/{id}', [DatasetController::class, 'updateDataset'])->name('updateDataset');
 
     Route::get('/project/{project}/search', [DatasetController::class, 'searchDatasets'])->name('projectDatasets.search');
+
+    Route::get('projects/manageContributionRequests/{id}', [ProjectController::class, 'manageContributionRequests'])->name('manageContributionRequests');
+
+
+    Route::get('projects/acceptContribution/{id}', [DatasetController::class, 'acceptContribution'])->name('acceptContribution');
+    Route::get('projects/rejectContribution/{id}', [DatasetController::class, 'rejectContribution'])->name('rejectContribution');
+    Route::get('projects/ignoreContribution/{id}', [DatasetController::class, 'ignoreContribution'])->name('ignoreContribution');
 
 
 });

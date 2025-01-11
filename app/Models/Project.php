@@ -23,4 +23,8 @@ class Project extends Model
     {
         return $this->hasMany(Dataset::class);
     }
+    public function contributionRequests()
+    {
+        return $this->hasMany(ContributionRequest::class);
+    }
 }

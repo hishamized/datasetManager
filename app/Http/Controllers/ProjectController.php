@@ -97,5 +97,10 @@ class ProjectController extends Controller
         return redirect()->route('projects.view')->with('success', 'Project updated successfully');
     }
 
+    public function manageContributionRequests($id){
+        $project = Project::find($id);
+        return view('projects.manageContributionRequests', ['project' => $project]);
+    }
+
 
 }

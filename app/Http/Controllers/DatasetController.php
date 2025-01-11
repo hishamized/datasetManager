@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Dataset;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Project;
+use App\Models\User;
+use App\Models\ContributionRequest;
+
 
 class DatasetController extends Controller
 {
@@ -138,5 +142,98 @@ class DatasetController extends Controller
 
     return view('projects.projectShow', compact('project', 'datasets'));
 }
+
+
+ public function acceptContribution($id)
+ {
+     DB::beginTransaction();
+
+     try {
+
+         $contributionRequest = ContributionRequest::findOrFail($id);
+
+
+         $dataset = new Dataset();
+         $dataset->project_id = $contributionRequest->project_id;
+         $dataset->serialNumber = $contributionRequest->serialNumber;
+         $dataset->year = $contributionRequest->year;
+         $dataset->dataset = $contributionRequest->dataset;
+         $dataset->kindOfTraffic = $contributionRequest->kindOfTraffic;
+         $dataset->publicallyAvailable = $contributionRequest->publicallyAvailable;
+         $dataset->countRecords = $contributionRequest->countRecords;
+         $dataset->featuresCount = $contributionRequest->featuresCount;
+         $dataset->doi = $contributionRequest->doi;
+         $dataset->downloadLinks = $contributionRequest->downloadLinks;
+         $dataset->abstract = $contributionRequest->abstract;
+         $dataset->save();
+
+
+         $contributionRequest->status = 'accepted';
+         $contributionRequest->save();
+
+
+         DB::commit();
+
+         return redirect()->route('manageContributionRequests', ['id' => $contributionRequest->project_id])
+                          ->with('success', 'Contribution accepted successfully.');
+
+     } catch (\Exception $e) {
+
+         DB::rollBack();
+         return back()->with('error', 'An error occurred while accepting the contribution.');
+     }
+ }
+
+
+ public function rejectContribution($id)
+ {
+     DB::beginTransaction();
+
+     try {
+
+         $contributionRequest = ContributionRequest::findOrFail($id);
+
+
+         $contributionRequest->status = 'rejected';
+         $contributionRequest->save();
+
+
+         DB::commit();
+
+         return redirect()->route('manageContributionRequests', ['id' => $contributionRequest->project_id])
+                          ->with('success', 'Contribution rejected successfully.');
+
+     } catch (\Exception $e) {
+
+         DB::rollBack();
+         return back()->with('error', 'An error occurred while rejecting the contribution.');
+     }
+ }
+
+
+ public function ignoreContribution($id)
+ {
+     DB::beginTransaction();
+
+     try {
+
+         $contributionRequest = ContributionRequest::findOrFail($id);
+
+
+         $contributionRequest->status = 'pending';
+         $contributionRequest->save();
+
+
+         DB::commit();
+
+         return redirect()->route('manageContributionRequests', ['id' => $contributionRequest->project_id])
+                          ->with('success', 'Contribution ignored successfully.');
+
+     } catch (\Exception $e) {
+
+         DB::rollBack();
+         return back()->with('error', 'An error occurred while ignoring the contribution.');
+     }
+ }
 
 }

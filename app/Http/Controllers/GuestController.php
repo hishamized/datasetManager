@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Dataset;
 
 use Illuminate\Http\Request;
+use App\Models\ContributionRequest;
 
 class GuestController extends Controller
 {
@@ -60,4 +61,83 @@ class GuestController extends Controller
 
         return view('projects.viewProjectPublicly', compact('project', 'datasets'));
     }
+
+    public function makeContributionRequest($id)
+    {
+        $project = Project::findOrFail($id);
+        return view('projects.contributionRequests', ['project' => $project]);
+    }
+
+    public function submitContributionRequest(Request $request)
+    {
+
+        $existingRequest = ContributionRequest::where('project_id', $request->input('project_id'))
+            ->where('status', 'pending')
+            ->where('email', $request->input('email'))
+            ->first();
+
+        if ($existingRequest) {
+            return redirect()->back()->with('error', 'A pending contribution request already exists for this project.');
+        }
+
+
+        $validatedData = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone_number' => 'required|string|max:15',
+            'project_id' => 'required|exists:projects,id',
+            'serialNumber' => 'required|integer',
+            'year' => 'required|integer|min:1900|max:' . date('Y'),
+            'dataset' => 'required|string|max:255',
+            'kindOfTraffic' => 'required|string|max:255',
+            'publicallyAvailable' => 'required|in:yes,no',
+            'countRecords' => 'required|string|max:255',
+            'featuresCount' => 'required|integer',
+            'doi' => 'nullable|string|max:255',
+            'downloadLinks' => 'nullable|string',
+            'abstract' => 'required|string',
+        ]);
+
+
+        $existingDataset = Dataset::where('project_id', $validatedData['project_id'])
+            ->where('serialNumber', $validatedData['serialNumber'])
+            ->first();
+
+
+        if ($existingDataset) {
+            $highestSerialNumber = Dataset::where('project_id', $validatedData['project_id'])->max('serialNumber');
+            $validatedData['serialNumber'] = $highestSerialNumber + 1;
+        }
+
+        try {
+
+            ContributionRequest::create([
+                'full_name' => $validatedData['full_name'],
+                'email' => $validatedData['email'],
+                'phone_number' => $validatedData['phone_number'],
+                'project_id' => $validatedData['project_id'],
+                'serialNumber' => $validatedData['serialNumber'],
+                'year' => $validatedData['year'],
+                'dataset' => $validatedData['dataset'],
+                'kindOfTraffic' => $validatedData['kindOfTraffic'],
+                'publicallyAvailable' => $validatedData['publicallyAvailable'],
+                'countRecords' => $validatedData['countRecords'],
+                'featuresCount' => $validatedData['featuresCount'],
+                'doi' => $validatedData['doi'],
+                'downloadLinks' => $validatedData['downloadLinks'],
+                'abstract' => $validatedData['abstract'],
+                'status' => 'pending',
+            ]);
+
+        } catch (\Exception $e) {
+
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+
+        return redirect()->route('project.show.publicly', ['id' => $validatedData['project_id']])
+            ->with('success', 'Your contribution request has been submitted successfully.');
+    }
+
 }

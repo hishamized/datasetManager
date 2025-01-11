@@ -74,6 +74,8 @@
     </form>
 
 
+    <a href="{{ route('makeContributionRequest', $project->id) }}" class="btn btn-primary my-3">Contribute</a>
+
     <div class="table-responsive mt-4">
         <table class="table table-hover table-bordered table-striped">
             <thead class="thead-dark">
