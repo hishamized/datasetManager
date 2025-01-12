@@ -28,7 +28,11 @@ class DatasetController extends Controller
             'doi' => 'required|string|max:255',
             'downloadLinks' => 'required|string|max:255',
             'abstract' => 'required|string',
+            'custom_attributes' => 'nullable|array',
         ]);
+
+        $customAttributes = $request->input('custom_attributes', []);
+        $encodedAttributes = json_encode($customAttributes);
 
 
         if ($validator->fails()) {
@@ -49,6 +53,7 @@ class DatasetController extends Controller
                 'doi' => $request->doi,
                 'downloadLinks' => $request->downloadLinks,
                 'abstract' => $request->abstract,
+                'custom_attributes' => $encodedAttributes,
             ]);
 
 
@@ -84,7 +89,12 @@ class DatasetController extends Controller
             'doi' => 'required|string|max:255',
             'downloadLinks' => 'required|string|max:255',
             'abstract' => 'required|string',
+            'custom_attributes' => 'nullable|array',
         ]);
+
+
+        $customAttributes = $request->input('custom_attributes', []);
+        $encodedAttributes = json_encode($customAttributes);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -102,6 +112,7 @@ class DatasetController extends Controller
                 'doi' => $request->doi,
                 'downloadLinks' => $request->downloadLinks,
                 'abstract' => $request->abstract,
+                'custom_attributes' => $encodedAttributes,
             ]);
 
             return redirect()->route('project.show', $dataset->project_id)->with('success', 'Dataset updated successfully.');
@@ -219,10 +230,8 @@ class DatasetController extends Controller
 
          $contributionRequest = ContributionRequest::findOrFail($id);
 
-
          $contributionRequest->status = 'pending';
          $contributionRequest->save();
-
 
          DB::commit();
 
@@ -234,6 +243,13 @@ class DatasetController extends Controller
          DB::rollBack();
          return back()->with('error', 'An error occurred while ignoring the contribution.');
      }
+ }
+
+ public function showDatasetDetails($id)
+ {
+     $dataset = Dataset::findOrFail($id);
+
+     return view('projects.datasetDetails', compact('dataset'));
  }
 
 }

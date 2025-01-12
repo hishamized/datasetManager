@@ -52,7 +52,11 @@ class UserController extends Controller
     public function showSignUpPage()
     {
         if (Auth::check()) {
-            return view('auth.signup');
+           if (Auth::user()->role == 'master' && Auth::user()->authorization == 'active') {
+                return view('auth.signup');
+            } else {
+                return redirect()->route('dashboard')->with('error', 'You are not authorized to view this page!');
+            }
         } else {
             return redirect()->route('auth.login')->with('error', 'You need to login first!');
         }
@@ -60,6 +64,12 @@ class UserController extends Controller
 
     public function addNewAdmin(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect()->route('user.login')->with('error', 'You need to login first!');
+        }
+        if (Auth::user()->role != 'master' || Auth::user()->authorization != 'active') {
+            return redirect()->route('dashboard')->with('error', 'You are not authorized to view this page!');
+        }
         $validatedData = $request->validate([
             'fullName' => 'required',
             'username' => 'required|unique:users',
@@ -68,6 +78,8 @@ class UserController extends Controller
             'cpassword' => 'required|same:password',
             'masterPassword' => 'required',
             'dateOfBirth' => 'required|date',
+            'authorization' => 'required|in:active,revoked',
+            'role' => 'required|in:master,scholar',
         ]);
 
         $masterAdmin = User::where('id', Auth::id())->first();
@@ -78,6 +90,8 @@ class UserController extends Controller
             $user->email = $validatedData['email'];
             $user->password = Hash::make($validatedData['password']);
             $user->dateOfBirth = $validatedData['dateOfBirth'];
+            $user->authorization = $validatedData['authorization'];
+            $user->role = $validatedData['role'];
             $user->save();
             return redirect()->route('showSignUpPage')->with('success', 'New admin added successfully!');
         } else {

@@ -1,5 +1,25 @@
 @extends('layouts.app')
 
+@section('internalCSS')
+<style>
+.form-group{
+    margin: 15px 0px;
+}
+#customAttributesList {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+.attribute-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    justify-content: space-between;
+    width: fit-content;
+}
+</style>
+@endsection
+
 @section('content')
 <div class="container">
     <h1 class="my-4">Project Details</h1>
@@ -36,7 +56,7 @@
     @auth
     <div class="container">
         <button class="btn btn-primary mb-4" id="toggleFormBtn">Add Dataset</button>
-         <a href="{{ route('manageContributionRequests', $project->id) }}" class="btn btn-danger mb-4">Contribution Requests</a>
+        <a href="{{ route('manageContributionRequests', $project->id) }}" class="btn btn-danger mb-4">Contribution Requests</a>
     </div>
     <div id="datasetForm" style="display: none;">
         <form action="{{ route('dataset.store') }}" method="POST">
@@ -108,8 +128,18 @@
                 <textarea name="abstract" id="abstract" class="form-control" rows="4" required></textarea>
             </div>
 
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="customAttributesToggle">
+                <label class="form-check-label" for="customAttributesToggle">Add Custom Attributes</label>
+            </div>
 
-            <button type="submit" class="btn btn-success mt-4">Add Dataset</button>
+            <div class="customAttributesContainer" id="customAttributes" style="display: none;">
+                <button type="button" class="btn btn-primary my-2" id="addAttributeButton">Add Attribute</button>
+                <div id="customAttributesList"></div>
+            </div>
+
+
+            <button type="submit" class="btn btn-success mt-4 my-2">Add Dataset</button>
         </form>
     </div>
     @endauth
@@ -215,6 +245,7 @@
                     <td>{{ Str::limit($dataset->abstract, 50) }} {{-- Limiting abstract to 50 chars --}}</td>
                     <td>
                         @auth
+                        <a href="{{ route('dataset-details', $dataset->id) }}" class="btn btn-success btn-sm my-2">Details</a>
                         <a href="{{ route('showEditDataset', $dataset->id) }}" class="btn btn-warning btn-sm my-2">Edit</a>
                         <form action="{{ route('deleteDataset', $dataset->id) }}" method="POST" style="display:inline;">
                             @csrf
@@ -255,14 +286,72 @@
         var button = document.querySelector('[data-dataset="' + datasetId + '"]');
 
         if (abstractRow.style.display === 'none') {
-            // Show the abstract row and change the button icon
+
             abstractRow.style.display = 'table-row';
             button.textContent = '⬆';
         } else {
-            // Hide the abstract row and reset the button icon
+
             abstractRow.style.display = 'none';
             button.textContent = '⬇';
         }
     }
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const customAttributesToggle = document.getElementById("customAttributesToggle");
+        const customAttributesDiv = document.getElementById("customAttributes");
+        const addAttributeButton = document.getElementById("addAttributeButton");
+        const customAttributesList = document.getElementById("customAttributesList");
+        let attributeCount = 0;
+
+
+        customAttributesToggle.addEventListener("change", function() {
+            if (customAttributesToggle.checked) {
+                customAttributesDiv.style.display = "block";
+            } else {
+                customAttributesDiv.style.display = "none";
+                customAttributesList.innerHTML = '';
+                attributeCount = 0;
+            }
+        });
+
+
+        addAttributeButton.addEventListener("click", function() {
+            if (attributeCount < 5) {
+                const attributeRow = document.createElement("div");
+                attributeRow.classList.add("form-row", "mb-2", "attribute-row");
+
+                const keyInput = document.createElement("input");
+                keyInput.classList.add("form-control", "col-5");
+                keyInput.name = `custom_attributes[${attributeCount}][key]`;
+                keyInput.placeholder = "Attribute Name";
+                keyInput.required = true;
+
+                const valueInput = document.createElement("input");
+                valueInput.classList.add("form-control", "col-5");
+                valueInput.name = `custom_attributes[${attributeCount}][value]`;
+                valueInput.placeholder = "Attribute Value";
+                valueInput.required = true;
+
+                const removeButton = document.createElement("button");
+                removeButton.classList.add("btn", "btn-danger", "col-2");
+                removeButton.type = "button";
+                removeButton.innerText = "X";
+                removeButton.onclick = function() {
+                    customAttributesList.removeChild(attributeRow);
+                    attributeCount--;
+                };
+
+                attributeRow.appendChild(keyInput);
+                attributeRow.appendChild(valueInput);
+                attributeRow.appendChild(removeButton);
+
+                customAttributesList.appendChild(attributeRow);
+                attributeCount++;
+            } else {
+                alert("You can add a maximum of 5 custom attributes.");
+            }
+        });
+    });
 </script>
 @endsection

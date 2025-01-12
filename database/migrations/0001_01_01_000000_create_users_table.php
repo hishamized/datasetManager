@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->date('dateOfBirth');
+            $table->enum('authorization', ['active', 'revoked'])->default('active');
+            $table->enum('role', ['master', 'scholar'])->default('scholar');
             $table->timestamps();
         });
     }

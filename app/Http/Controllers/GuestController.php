@@ -140,4 +140,10 @@ class GuestController extends Controller
             ->with('success', 'Your contribution request has been submitted successfully.');
     }
 
+    public function showDatasetDetailsPublicly($id)
+    {
+        $dataset = Dataset::find($id);
+        return view('projects.datasetDetails', ['dataset' => $dataset]);
+    }
+
 }

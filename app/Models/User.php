@@ -18,6 +18,8 @@ class User extends Authenticatable
         'email',
         'password',
         'dateOfBirth',
+        'authorization',
+        'role',
     ];
 
     protected $hidden = [
@@ -34,5 +36,12 @@ class User extends Authenticatable
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function authorization(){
+        return $this->authorization;
+    }
+    public function role(){
+        return $this->role;
     }
 }

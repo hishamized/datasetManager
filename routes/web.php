@@ -22,6 +22,9 @@ Route::prefix('guest')->group(function () {
 
     Route::get('projects/makeContributionRequest/{id}', [GuestController::class, 'makeContributionRequest'])->name('makeContributionRequest');
     Route::post('projects/contributionRequest', [GuestController::class, 'submitContributionRequest'])->name('contribution.submit');
+
+    Route::get('projects/dataset-details-publicly/{id}', [GuestController::class, 'showDatasetDetailsPublicly'])->name('showDatasetDetailsPublicly');
+
 });
 
 
@@ -61,4 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::get('projects/acceptContribution/{id}', [DatasetController::class, 'acceptContribution'])->name('acceptContribution');
     Route::get('projects/rejectContribution/{id}', [DatasetController::class, 'rejectContribution'])->name('rejectContribution');
     Route::get('projects/ignoreContribution/{id}', [DatasetController::class, 'ignoreContribution'])->name('ignoreContribution');
+
+    Route::get('projects/dataset-details/{id}', [DatasetController::class, 'showDatasetDetails'])->name('dataset-details');
+
 });

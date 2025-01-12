@@ -74,6 +74,25 @@
                             <input type="date" name="dateOfBirth" id="dateOfBirth" class="form-control" required>
                         </div>
 
+
+                        <div class="mb-3">
+                            <label for="authorization" class="form-label">Authorization</label>
+                            <select class="form-select" id="authorization" name="authorization">
+                                <option value="active" selected>Active</option>
+                                <option value="revoked">Revoked</option>
+                            </select>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="scholar" selected>Scholar</option>
+                                <option value="master">Master</option>
+                            </select>
+                        </div>
+
+
                         <button type="submit" class="btn btn-primary w-100">Add New Amdin</button>
                     </form>
                 </div>

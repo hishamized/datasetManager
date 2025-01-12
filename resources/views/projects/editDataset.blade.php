@@ -61,6 +61,45 @@
             <textarea class="form-control" id="abstract" name="abstract" rows="5" required>{{ old('abstract', $dataset->abstract ?? '') }}</textarea>
         </div>
 
+
+        <div class="form-group">
+            <label for="customAttributes">Custom Attributes</label>
+
+
+            @if($dataset->custom_attributes)
+            @php
+            $customAttributes = json_decode($dataset->custom_attributes, true);
+            @endphp
+
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribute Name</th>
+                        <th scope="col">Attribute Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($customAttributes as $index => $attribute)
+                    <tr>
+                        <td>
+                            <input type="text" name="custom_attributes[{{ $index }}][key]" class="form-control" value="{{ $attribute['key'] }}" required>
+                        </td>
+                        <td>
+                            <input type="text" name="custom_attributes[{{ $index }}][value]" class="form-control" value="{{ $attribute['value'] }}" required>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            @else
+            <p>No custom attributes available.</p>
+            @endif
+        </div>
+
+
+
         <button type="submit" class="btn btn-primary m-2">Update Dataset</button>
     </form>
 </div>

@@ -26,6 +26,7 @@ class CreateDatasetsTable extends Migration
             $table->string('doi')->nullable();
             $table->text('downloadLinks')->nullable();
             $table->text('abstract');
+            $table->json('custom_attributes')->nullable();
 
             $table->timestamps();
 

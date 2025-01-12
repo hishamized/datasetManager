@@ -24,7 +24,8 @@ class Dataset extends Model
         'featuresCount',
         'doi',
         'downloadLinks',
-        'abstract'
+        'abstract',
+        'custom_attributes'
     ];
 
 
