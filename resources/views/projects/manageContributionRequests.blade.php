@@ -35,7 +35,7 @@
     @if($project->contributionRequests->isEmpty())
     <p>No contribution requests found for this project.</p>
     @else
-    <!-- Add a wrapper div with horizontal scroll capability -->
+
     <div style="overflow-x: auto;">
         <table class="table table-bordered table-striped">
             <thead>
@@ -100,7 +100,7 @@
                         @endif
                     </td>
                 </tr>
-                <!-- Hidden abstract row -->
+
                 <tr id="abstract-row-{{ $request->id }}" style="display: none;">
                     <td class="p-4" colspan="15">
                         <strong>Abstract:</strong> {{ $request->abstract }}
@@ -109,7 +109,7 @@
                 @endforeach
             </tbody>
         </table>
-    </div> <!-- Close the scrollable div -->
+    </div>
     @endif
 </div>
 

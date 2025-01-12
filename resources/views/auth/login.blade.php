@@ -39,19 +39,19 @@
                     <form method="POST" action="{{ route('user.login.submit') }}">
                         @csrf
 
-                        <!-- Identifier (username or email) -->
+
                         <div class="mb-3">
                             <label for="identifier" class="form-label">Username or Email</label>
                             <input type="text" name="identifier" id="identifier" class="form-control" required autofocus>
                         </div>
 
-                        <!-- Password -->
+
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" name="password" id="password" class="form-control" required>
                         </div>
 
-                        <!-- Submit Button -->
+
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
                 </div>

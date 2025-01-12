@@ -13,18 +13,23 @@ class User extends Authenticatable
     protected $table = 'users';
 
     protected $fillable = [
-        'fullName', 'username', 'email', 'password', 'dateOfBirth',
+        'fullName',
+        'username',
+        'email',
+        'password',
+        'dateOfBirth',
     ];
 
     protected $hidden = [
         'password',
     ];
 
-
+    /*
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
     }
+        */
 
     public function projects()
     {

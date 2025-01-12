@@ -17,24 +17,31 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
+
+        $validatedData = $request->validate([
             'identifier' => 'required',
             'password' => 'required|min:8',
         ]);
+        $credentials = [
+            'password' => $validatedData['password']
+        ];
+        if (filter_var($validatedData['identifier'], FILTER_VALIDATE_EMAIL)) {
 
-        $user = User::where('username', $request->identifier)
-            ->orWhere('email', $request->identifier)
-            ->first();
-
-        if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
-            return redirect()->route('dashboard')->with('success', 'You are logged in successfully!');
+            $credentials['email'] = $validatedData['identifier'];
         } else {
-            return redirect()->route('user.login')->with('error', 'Invalid credentials, please try again!');
+
+            $credentials['username'] = $validatedData['identifier'];
         }
+
+        if (Auth::attempt($credentials)) {
+
+            return redirect()->route('dashboard')->with('success', 'You are logged in successfully!');
+        }
+
 
         return redirect()->route('user.login')->with('error', 'Invalid credentials, please try again!');
     }
+
 
     public function logout()
     {
@@ -62,8 +69,9 @@ class UserController extends Controller
             'masterPassword' => 'required',
             'dateOfBirth' => 'required|date',
         ]);
+
         $masterAdmin = User::where('id', Auth::id())->first();
-        if($masterAdmin && Hash::check($request->masterPassword, $masterAdmin->password)){
+        if ($masterAdmin && Hash::check($request->masterPassword, $masterAdmin->password)) {
             $user = new User();
             $user->fullName = $validatedData['fullName'];
             $user->username = $validatedData['username'];
@@ -75,6 +83,5 @@ class UserController extends Controller
         } else {
             return redirect()->route('showSignUpPage')->with('error', 'Invalid master password!');
         }
-
     }
 }

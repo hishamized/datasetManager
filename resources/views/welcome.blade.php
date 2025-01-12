@@ -5,7 +5,6 @@
 @section('content')
 <div class="container my-5">
     <div class="row align-items-center">
-        <!-- Information section on the left -->
         <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
 
             <h1 class="display-4 font-weight-bold">Welcome to SHIELD - IDS Datasets</h1>
@@ -20,11 +19,8 @@
             <a href="{{ route('showProjectsPublicly') }}" class="btn btn-primary btn-lg mt-3">Explore Projects</a>
         </div>
 
-        <!-- Image section on the right (random image generator) -->
         <div class="col-md-6">
-            <!-- <img src="https://picsum.photos/600/400?random=programming" alt="Machine Learning" class="img-fluid rounded"> -->
             <div class="container text-center my-4">
-                <!-- Project Logo -->
                 <div class="logo-container" style="display: inline-block; padding: 20px;">
                     <img src="{{ asset('shield.png') }}" alt="Project Logo" class="img-fluid" style="max-width: 400px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); border-radius: 10px;">
                 </div>

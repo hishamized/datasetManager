@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/">SHIELD</a>
+        <div class="logo-container" style="display: inline-block; padding: 5px">
+            <img src="{{ asset('shield.png') }}" alt="Project Logo" class="img-fluid" style="max-width: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); border-radius: 10px;">
+        </div>
+        <a style="font-weight: bolder;" class="navbar-brand" href="/">SHIELD</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,10 +35,3 @@
         </div>
     </div>
 </nav>
-
-
-
-
-
-
-

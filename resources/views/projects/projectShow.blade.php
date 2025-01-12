@@ -42,34 +42,34 @@
         <form action="{{ route('dataset.store') }}" method="POST">
             @csrf
 
-            <!-- Project ID (hidden field) -->
+
             <input type="hidden" name="project_id" value="{{ $project->id }}">
 
-            <!-- Serial Number -->
+
             <div class="form-group">
                 <label for="serialNumber">Serial Number</label>
                 <input type="number" name="serialNumber" id="serialNumber" class="form-control" required>
             </div>
 
-            <!-- Year -->
+
             <div class="form-group">
                 <label for="year">Year</label>
                 <input type="number" name="year" id="year" class="form-control" required>
             </div>
 
-            <!-- Dataset -->
+
             <div class="form-group">
                 <label for="dataset">Dataset</label>
                 <input type="text" name="dataset" id="dataset" class="form-control" required>
             </div>
 
-            <!-- Kind of Traffic -->
+
             <div class="form-group">
                 <label for="kindOfTraffic">Kind of Traffic</label>
                 <input type="text" name="kindOfTraffic" id="kindOfTraffic" class="form-control" required>
             </div>
 
-            <!-- Publically Available -->
+
             <div class="form-group">
                 <label for="publicallyAvailable">Publically Available</label>
                 <select name="publicallyAvailable" id="publicallyAvailable" class="form-control" required>
@@ -78,42 +78,42 @@
                 </select>
             </div>
 
-            <!-- Count Records -->
+
             <div class="form-group">
                 <label for="countRecords">Count of Records</label>
                 <input type="text" name="countRecords" id="countRecords" class="form-control" required>
             </div>
 
-            <!-- Features Count -->
+
             <div class="form-group">
                 <label for="featuresCount">Features Count</label>
                 <input type="number" name="featuresCount" id="featuresCount" class="form-control" required>
             </div>
 
-            <!-- DOI -->
+
             <div class="form-group">
                 <label for="doi">DOI</label>
                 <input type="text" name="doi" id="doi" class="form-control" required>
             </div>
 
-            <!-- Download Links -->
+
             <div class="form-group">
                 <label for="downloadLinks">Download Links</label>
                 <input type="text" name="downloadLinks" id="downloadLinks" class="form-control" required>
             </div>
 
-            <!-- Abstract -->
+
             <div class="form-group">
                 <label for="abstract">Abstract</label>
                 <textarea name="abstract" id="abstract" class="form-control" rows="4" required></textarea>
             </div>
 
-            <!-- Submit button -->
+
             <button type="submit" class="btn btn-success mt-4">Add Dataset</button>
         </form>
     </div>
     @endauth
-    <!-- Project Card -->
+
     <div class="card">
         <div class="card-header">
             <h3>{{ $project->title }}</h3>
@@ -129,7 +129,7 @@
         <div class="card-footer text-center">
             <a href="{{ route('project.edit', $project->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
-            <!-- Delete Button -->
+
             <form action="{{ route('project.destroy', $project->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
@@ -139,17 +139,17 @@
         @endauth
     </div>
 
-    <!-- Search section starts -->
 
-    <!-- Search Form -->
+
+
     <form class="m-4" action="{{ route('projectDatasets.search', $project->id) }}" method="GET" class="mb-4">
         <div class="row">
-            <!-- Search String Input -->
+
             <div class="col-md-6">
                 <input type="text" name="search" class="form-control" placeholder="Enter search string..." value="{{ request()->get('search') }}">
             </div>
 
-            <!-- Column Select Input -->
+
             <div class="col-md-3">
                 <select name="column" class="form-control">
                     <option value="all">All Columns</option>
@@ -166,15 +166,15 @@
                 </select>
             </div>
 
-            <!-- Submit Button -->
+
             <div class="d-flex col-md-1">
                 <button type="submit" class="btn btn-primary mx-2">Search</button>
-                <!-- Reset button -->
+
                 <a href="{{ route('project.show', $project->id) }}" class="btn btn-danger mx-2">Reset</a>
             </div>
         </div>
     </form>
-    <!-- Search section ends -->
+
 
     <div class="table-responsive mt-4">
         <table class="table table-hover table-bordered table-striped">

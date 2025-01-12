@@ -15,7 +15,7 @@ Route::get('dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::prefix('guest')->group(function(){
+Route::prefix('guest')->group(function () {
     Route::get('showProjectsPublicly', [GuestController::class, 'showProjectsPublicly'])->name('showProjectsPublicly');
     Route::get('projects/view/{id}', [GuestController::class, 'showProjectPublicly'])->name('project.show.publicly');
     Route::get('/projects/{id}/searchPublic', [GuestController::class, 'searchDatasetsPublic'])->name('projectDatasets.searchPublic');
@@ -28,7 +28,13 @@ Route::prefix('guest')->group(function(){
 Route::prefix('user')->group(function () {
     Route::get('login', [UserController::class, 'showLoginForm'])->name('user.login');
     Route::post('login', [UserController::class, 'login'])->name('user.login.submit');
+});
+
+Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('logout', [UserController::class, 'logout'])->name('user.logout');
+
+    Route::get('sign-up-page', [UserController::class, 'showSignUpPage'])->name('showSignUpPage');
+    Route::post('add-new-admin', [UserController::class, 'addNewAdmin'])->name('addNewAdmin');
 });
 
 
@@ -55,9 +61,4 @@ Route::middleware('auth')->group(function () {
     Route::get('projects/acceptContribution/{id}', [DatasetController::class, 'acceptContribution'])->name('acceptContribution');
     Route::get('projects/rejectContribution/{id}', [DatasetController::class, 'rejectContribution'])->name('rejectContribution');
     Route::get('projects/ignoreContribution/{id}', [DatasetController::class, 'ignoreContribution'])->name('ignoreContribution');
-
-    Route::get('sign-up-page', [UserController::class, 'showSignUpPage'])->name('showSignUpPage');
-    Route::post('add-new-admin', [UserController::class, 'addNewAdmin'])->name('addNewAdmin');
-
-
 });
