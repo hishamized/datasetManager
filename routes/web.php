@@ -56,5 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::get('projects/rejectContribution/{id}', [DatasetController::class, 'rejectContribution'])->name('rejectContribution');
     Route::get('projects/ignoreContribution/{id}', [DatasetController::class, 'ignoreContribution'])->name('ignoreContribution');
 
+    Route::get('sign-up-page', [UserController::class, 'showSignUpPage'])->name('showSignUpPage');
+    Route::post('add-new-admin', [UserController::class, 'addNewAdmin'])->name('addNewAdmin');
+
 
 });

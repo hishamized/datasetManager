@@ -20,10 +20,10 @@
 
                     <h4>Welcome to your dashboard!</h4>
 
-                    <!-- Button to navigate to create project page -->
                      <div  class="mt-4">
                      <a href="{{ route('project.create') }}" class="btn btn-primary">Create New Project</a>
                      <a href="{{route('projects.view')}}" class="btn btn-primary">View Your Projects</a>
+                     <a href="{{ route('showSignUpPage') }}" class="btn btn-primary">Add a New Admin</a>
                      </div>
                 </div>
             </div>
