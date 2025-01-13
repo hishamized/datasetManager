@@ -68,7 +68,7 @@
 
             <div class="form-group">
                 <label for="serialNumber">Serial Number</label>
-                <input type="number" name="serialNumber" id="serialNumber" class="form-control" required>
+                <input type="number" name="serialNumber" id="serialNumber" class="form-control"  value="{{ $maxSerialNumber }}" required readonly>
             </div>
 
 
@@ -219,7 +219,7 @@
                     <th scope="col">Features Count</th>
                     <th scope="col">DOI</th>
                     <th scope="col">Download Links</th>
-                    <th scope="col">Abstract</th>
+                    <!-- <th scope="col">Abstract</th> -->
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -242,7 +242,7 @@
                     <td>{{ $dataset->featuresCount }}</td>
                     <td><a class="btn btn-dark btn-sm" href="{{ $dataset->doi }}" target="_blank">DOI</a></td>
                     <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
-                    <td>{{ Str::limit($dataset->abstract, 50) }} {{-- Limiting abstract to 50 chars --}}</td>
+                    <!-- <td>{{ Str::limit($dataset->abstract, 50) }} {{-- Limiting abstract to 50 chars --}}</td> -->
                     <td>
                         @auth
                         <a href="{{ route('dataset-details', $dataset->id) }}" class="btn btn-success btn-sm my-2">Details</a>

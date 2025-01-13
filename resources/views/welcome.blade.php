@@ -22,7 +22,7 @@
         <div class="col-md-6">
             <div class="container text-center my-4">
                 <div class="logo-container" style="display: inline-block; padding: 20px;">
-                    <img src="{{ asset('shield.png') }}" alt="Project Logo" class="img-fluid" style="max-width: 400px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); border-radius: 10px;">
+                    <img src="{{ asset('shield.png') }}" alt="Project Logo" class="img-fluid" style="max-width: 100%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); border-radius: 10px;">
                 </div>
             </div>
         </div>

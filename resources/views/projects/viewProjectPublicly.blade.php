@@ -89,7 +89,7 @@
                     <th scope="col">Features Count</th>
                     <th scope="col">DOI</th>
                     <th scope="col">Download Links</th>
-                    <th scope="col">Abstract</th>
+                    <!-- <th scope="col">Abstract</th> -->
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -112,7 +112,7 @@
                     <td>{{ $dataset->featuresCount }}</td>
                     <td><a class="btn btn-dark btn-sm" href="{{ $dataset->doi }}" target="_blank">DOI</a></td>
                     <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
-                    <td>{{ Str::limit($dataset->abstract, 50) }} {{-- Limiting abstract to 50 chars --}}</td>
+                    <!-- <td>{{ Str::limit($dataset->abstract, 50) }} {{-- Limiting abstract to 50 chars --}}</td> -->
                     <td>
                         <a href="{{ route('showDatasetDetailsPublicly', $dataset->id) }}" class="btn btn-primary btn-sm">View</a>
                     </td>

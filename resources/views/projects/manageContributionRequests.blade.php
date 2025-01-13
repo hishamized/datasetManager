@@ -36,7 +36,7 @@
     <p>No contribution requests found for this project.</p>
     @else
 
-    <div style="overflow-x: auto;">
+    <div class="table-responsive mt-4" style="overflow-x: auto;">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>

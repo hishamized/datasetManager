@@ -38,34 +38,36 @@
         You haven't created any projects yet.
     </div>
     @else
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Project Title</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Students</th>
-                <th>Guide Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($projects as $project)
-            <tr>
-                <td>{{ $project->title }}</td>
-                <td>{{ $project->description }}</td>
-                <td>{{ $project->start_date }}</td>
-                <td>{{ $project->end_date }}</td>
-                <td>{{ $project->students }}</td>
-                <td>{{ $project->guide_name }}</td>
-                <td>
-                    <a href="{{ route('project.show.publicly', $project->id) }}" class="btn btn-info btn-sm">View</a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Project Title</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Students</th>
+                    <th>Guide Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($projects as $project)
+                <tr>
+                    <td>{{ $project->title }}</td>
+                    <td>{{ $project->description }}</td>
+                    <td>{{ $project->start_date }}</td>
+                    <td>{{ $project->end_date }}</td>
+                    <td>{{ $project->students }}</td>
+                    <td>{{ $project->guide_name }}</td>
+                    <td>
+                        <a href="{{ route('project.show.publicly', $project->id) }}" class="btn btn-info btn-sm">View</a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
     @endif
 </div>
 @endsection

@@ -65,7 +65,9 @@ class GuestController extends Controller
     public function makeContributionRequest($id)
     {
         $project = Project::findOrFail($id);
-        return view('projects.contributionRequests', ['project' => $project]);
+        $maxSerialNumber = Dataset::where('project_id', $id)->max('serialNumber');
+        $maxSerialNumber = $maxSerialNumber ? $maxSerialNumber + 1 : 0;
+        return view('projects.contributionRequests', ['project' => $project, 'maxSerialNumber' => $maxSerialNumber]);
     }
 
     public function submitContributionRequest(Request $request)
