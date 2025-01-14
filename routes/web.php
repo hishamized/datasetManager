@@ -25,6 +25,8 @@ Route::prefix('guest')->group(function () {
 
     Route::get('projects/dataset-details-publicly/{id}', [GuestController::class, 'showDatasetDetailsPublicly'])->name('showDatasetDetailsPublicly');
 
+    Route::post('projects/searchPublic', [GuestController::class, 'searchProjectsPublic'])->name('projects.search.public');
+
 });
 
 
@@ -66,5 +68,6 @@ Route::middleware('auth')->group(function () {
     Route::get('projects/ignoreContribution/{id}', [DatasetController::class, 'ignoreContribution'])->name('ignoreContribution');
 
     Route::get('projects/dataset-details/{id}', [DatasetController::class, 'showDatasetDetails'])->name('dataset-details');
+    Route::post('projects/search', [ProjectController::class, 'searchProjects'])->name('projects.search');
 
 });

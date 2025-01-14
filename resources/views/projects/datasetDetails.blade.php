@@ -29,6 +29,7 @@
                     <p><strong>Publicly Available:</strong> {{ ucfirst($dataset->publicallyAvailable) }}</p>
                     <p><strong>Count of Records:</strong> {{ $dataset->countRecords }}</p>
                     <p><strong>Features Count:</strong> {{ $dataset->featuresCount }}</p>
+                    <p><strong>No. of citations:</strong> {{ $dataset->citations }}</p>
                     <p><strong>DOI:</strong> {{ $dataset->doi ?? 'N/A' }}</p>
 
                     <!-- Download Links -->

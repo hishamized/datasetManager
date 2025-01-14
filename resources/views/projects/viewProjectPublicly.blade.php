@@ -88,8 +88,8 @@
                     <th scope="col">Count of Records</th>
                     <th scope="col">Features Count</th>
                     <th scope="col">DOI</th>
+                    <th scope="col">Citations</th>
                     <th scope="col">Download Links</th>
-                    <!-- <th scope="col">Abstract</th> -->
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -110,6 +110,7 @@
                     <td>{{ $dataset->publicallyAvailable ? 'Yes' : 'No' }}</td>
                     <td>{{ $dataset->countRecords }}</td>
                     <td>{{ $dataset->featuresCount }}</td>
+                    <td>{{ $dataset->citations }}</td>
                     <td><a class="btn btn-dark btn-sm" href="{{ $dataset->doi }}" target="_blank">DOI</a></td>
                     <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
                     <!-- <td>{{ Str::limit($dataset->abstract, 50) }} {{-- Limiting abstract to 50 chars --}}</td> -->

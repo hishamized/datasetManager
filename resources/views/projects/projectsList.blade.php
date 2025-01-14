@@ -32,6 +32,29 @@
     </div>
     @endif
 
+    <form class="m-4" action="{{ route('projects.search') }}" method="POST" class="mb-4">
+        @csrf
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="Enter search string..." value="{{ request()->get('search') }}">
+            </div>
+            <div class="col-md-3">
+                <select name="column" class="form-control">
+                    <option value="all">All Columns</option>
+                    <option value="title" {{ request()->get('column') == 'title' ? 'selected' : '' }}>Project Title</option>
+                    <option value="description" {{ request()->get('column') == 'description' ? 'selected' : '' }}>Description</option>
+                    <option value="start_date" {{ request()->get('column') == 'start_date' ? 'selected' : '' }}>Start Date</option>
+                    <option value="end_date" {{ request()->get('column') == 'end_date' ? 'selected' : '' }}>End Date</option>
+                    <option value="students" {{ request()->get('column') == 'students' ? 'selected' : '' }}>Students</option>
+                    <option value="guide_name" {{ request()->get('column') == 'guide_name' ? 'selected' : '' }}>Guide Name</option>
+                </select>
+            </div>
+            <div class="d-flex col-md-1">
+                <button type="submit" class="btn btn-primary mx-2">Search</button>
+                <a href="{{ route('projects.view') }}" class="btn btn-danger mx-2">Reset</a>
+            </div>
+        </div>
+    </form>
 
     @if ($projects->isEmpty())
     <div class="alert alert-info">

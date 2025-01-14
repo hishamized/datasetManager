@@ -41,6 +41,35 @@ class ProjectController extends Controller
         return redirect()->route('dashboard')->with('success', 'Project created successfully');
     }
 
+    public function searchProjects(Request $request){
+        $validatedData = $request->validate([
+            'search' => 'nullable|string',
+            'column' => 'nullable|string',
+        ]);
+
+        $searchQuery = $validatedData['search'];
+        $column = $validatedData['column'];
+
+        if (empty($searchQuery)) {
+            $projects = Project::all();
+        } else {
+            $projects = Project::when($column !== 'all', function ($query) use ($column, $searchQuery) {
+                return $query->where($column, 'like', '%' . $searchQuery . '%');
+            }, function ($query) use ($searchQuery) {
+                return $query->where(function ($query) use ($searchQuery) {
+                    $query->where('title', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('description', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('start_date', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('end_date', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('students', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('guide_name', 'like', '%' . $searchQuery . '%');
+                });
+            })->get();
+        }
+
+        return view('projects.projectsList', compact('projects'));
+    }
+
     public function viewProjects(){
         $projects = Project::where('user_id', Auth::id())->get();
         return view('projects.projectsList', ['projects' => $projects]);

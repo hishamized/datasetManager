@@ -110,6 +110,11 @@
                 <input type="number" name="featuresCount" id="featuresCount" class="form-control" required>
             </div>
 
+            <div class="form-group">
+                <label for="citations">No. of citations</label>
+                <input type="number" name="citations" id="citations" class="form-control" required>
+            </div>
+
 
             <div class="form-group">
                 <label for="doi">DOI</label>
@@ -217,6 +222,7 @@
                     <th scope="col">Publically Available</th>
                     <th scope="col">Count of Records</th>
                     <th scope="col">Features Count</th>
+                    <th scope="col">Citations</th>
                     <th scope="col">DOI</th>
                     <th scope="col">Download Links</th>
                     <!-- <th scope="col">Abstract</th> -->
@@ -240,6 +246,7 @@
                     <td>{{ $dataset->publicallyAvailable ? 'Yes' : 'No' }}</td>
                     <td>{{ $dataset->countRecords }}</td>
                     <td>{{ $dataset->featuresCount }}</td>
+                    <td>{{ $dataset->citations }}</td>
                     <td><a class="btn btn-dark btn-sm" href="{{ $dataset->doi }}" target="_blank">DOI</a></td>
                     <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
                     <!-- <td>{{ Str::limit($dataset->abstract, 50) }} {{-- Limiting abstract to 50 chars --}}</td> -->

@@ -108,15 +108,20 @@
             <input type="number" class="form-control" id="featuresCount" name="featuresCount" required>
         </div>
 
+        <div class="form-group">
+                <label for="citations">Features Count</label>
+                <input type="number" name="citations" id="citations" class="form-control" required>
+            </div>
+
 
         <div class="form-group">
-            <label for="doi">DOI (optional)</label>
+            <label for="doi">DOI</label>
             <input type="text" class="form-control" id="doi" name="doi">
         </div>
 
 
         <div class="form-group">
-            <label for="downloadLinks">Download Links (optional)</label>
+            <label for="downloadLinks">Download Links</label>
             <textarea class="form-control" id="downloadLinks" name="downloadLinks"></textarea>
         </div>
 

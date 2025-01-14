@@ -4,6 +4,35 @@
 <div class="container m-4">
     <h2>Edit Dataset</h2>
 
+
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
+
+    @if (session('failure'))
+    <div class="alert alert-danger">
+        {{ session('failure') }}
+    </div>
+    @endif
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     <form action="{{ route('updateDataset', $dataset->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -44,6 +73,11 @@
         <div class="form-group m-2">
             <label for="featuresCount">Features Count</label>
             <input type="number" class="form-control" id="featuresCount" name="featuresCount" value="{{ old('featuresCount', $dataset->featuresCount ?? '') }}" required>
+        </div>
+
+        <div class="form-group m-2">
+            <label for="classesCount">No. of citations</label>
+            <input type="number" class="form-control" id="citations" name="citations" value="{{ old('citations', $dataset->citations ?? '') }}" required>
         </div>
 
         <div class="form-group m-2">

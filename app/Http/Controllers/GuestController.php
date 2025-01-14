@@ -16,6 +16,35 @@ class GuestController extends Controller
         return view('projects.showProjectsPublicly', ['projects' => $projects]);
     }
 
+    public function searchProjectsPublic(Request $request){
+        $validatedData = $request->validate([
+            'search' => 'nullable|string',
+            'column' => 'nullable|string',
+        ]);
+
+        $searchQuery = $validatedData['search'];
+        $column = $validatedData['column'];
+
+        if (empty($searchQuery)) {
+            $projects = Project::all();
+        } else {
+            $projects = Project::when($column !== 'all', function ($query) use ($column, $searchQuery) {
+                return $query->where($column, 'like', '%' . $searchQuery . '%');
+            }, function ($query) use ($searchQuery) {
+                return $query->where(function ($query) use ($searchQuery) {
+                    $query->where('title', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('description', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('start_date', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('end_date', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('students', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('guide_name', 'like', '%' . $searchQuery . '%');
+                });
+            })->get();
+        }
+
+        return view('projects.showProjectsPublicly', compact('projects'));
+    }
+
     public function showProjectPublicly($id)
     {
         $project = Project::find($id);
@@ -95,6 +124,7 @@ class GuestController extends Controller
             'publicallyAvailable' => 'required|in:yes,no',
             'countRecords' => 'required|string|max:255',
             'featuresCount' => 'required|integer',
+            'citations' => 'required|interger',
             'doi' => 'nullable|string|max:255',
             'downloadLinks' => 'nullable|string',
             'abstract' => 'required|string',
@@ -125,6 +155,7 @@ class GuestController extends Controller
                 'publicallyAvailable' => $validatedData['publicallyAvailable'],
                 'countRecords' => $validatedData['countRecords'],
                 'featuresCount' => $validatedData['featuresCount'],
+                'citations' => $validatedData['citations'],
                 'doi' => $validatedData['doi'],
                 'downloadLinks' => $validatedData['downloadLinks'],
                 'abstract' => $validatedData['abstract'],
