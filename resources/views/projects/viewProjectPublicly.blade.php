@@ -33,7 +33,7 @@
     </div>
     @endif
 
-    <!-- Project Card -->
+
     <div class="card">
         <div class="card-header">
             <h3>{{ $project->title }}</h3>
@@ -49,10 +49,10 @@
 
     <form class="m-4" action="{{ route('projectDatasets.searchPublic', $project->id) }}" method="GET">
         @csrf
-        <!-- Search Input -->
+
         <input type="text" name="search" placeholder="Search datasets..." class="form-control mb-2">
 
-        <!-- Column Selection Dropdown -->
+
         <select name="column" class="form-control mb-2">
             <option value="all">All Columns</option>
             <option value="serialNumber">Serial Number</option>
@@ -67,9 +67,9 @@
             <option value="abstract">Abstract</option>
         </select>
 
-        <!-- Search Button -->
+
         <button type="submit" class="btn btn-primary">Search</button>
-        <!-- Reset button -->
+
         <a href="{{ route('project.show.publicly', $project->id) }}" class="btn btn-danger">Reset</a>
     </form>
 
@@ -88,6 +88,7 @@
                     <th scope="col">Count of Records</th>
                     <th scope="col">Features Count</th>
                     <th scope="col">DOI</th>
+                    <th scope="col">Citation Text</th>
                     <th scope="col">Citations</th>
                     <th scope="col">Download Links</th>
                     <th scope="col">Actions</th>
@@ -110,10 +111,16 @@
                     <td>{{ $dataset->publicallyAvailable ? 'Yes' : 'No' }}</td>
                     <td>{{ $dataset->countRecords }}</td>
                     <td>{{ $dataset->featuresCount }}</td>
+                    <td>
+                        <div class="d-flex flex-column gap-2">
+                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->citation_text) !!}`)">Copy</button>
+                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->citation_text) !!}`, 'citation_{{ $dataset->id }}.txt')">Download</button>
+                        </div>
+                    </td>
                     <td>{{ $dataset->citations }}</td>
                     <td><a class="btn btn-dark btn-sm" href="{{ $dataset->doi }}" target="_blank">DOI</a></td>
                     <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
-                    <!-- <td>{{ Str::limit($dataset->abstract, 50) }} {{-- Limiting abstract to 50 chars --}}</td> -->
+
                     <td>
                         <a href="{{ route('showDatasetDetailsPublicly', $dataset->id) }}" class="btn btn-primary btn-sm">View</a>
                     </td>
@@ -137,14 +144,37 @@
         var button = document.querySelector('[data-dataset="' + datasetId + '"]');
 
         if (abstractRow.style.display === 'none') {
-            // Show the abstract row and change the button icon
+
             abstractRow.style.display = 'table-row';
             button.textContent = '⬆';
         } else {
-            // Hide the abstract row and reset the button icon
+
             abstractRow.style.display = 'none';
             button.textContent = '⬇';
         }
+    }
+
+    function copyToClipboard(text) {
+
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        alert("Citation text copied to clipboard!");
+    }
+
+
+    function downloadCitation(text, filename) {
+        const blob = new Blob([text], {
+            type: "text/plain"
+        });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(link.href);
     }
 </script>
 @endsection

@@ -7,7 +7,9 @@ use App\Http\Controllers\GuestController;
 use App\Models\ContributionRequest;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/', [GuestController::class, 'landingPage'])->name('landingPage');
+
+Route::get('/home', function () {
     return view('welcome');
 });
 

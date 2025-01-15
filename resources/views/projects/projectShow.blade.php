@@ -2,21 +2,23 @@
 
 @section('internalCSS')
 <style>
-.form-group{
-    margin: 15px 0px;
-}
-#customAttributesList {
-    display: flex;
-    flex-direction: column;
-    row-gap: 15px;
-}
-.attribute-row {
-    display: flex;
-    flex-direction: row;
-    column-gap: 10px;
-    justify-content: space-between;
-    width: fit-content;
-}
+    .form-group {
+        margin: 15px 0px;
+    }
+
+    #customAttributesList {
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+    }
+
+    .attribute-row {
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+        justify-content: space-between;
+        width: fit-content;
+    }
 </style>
 @endsection
 
@@ -68,7 +70,7 @@
 
             <div class="form-group">
                 <label for="serialNumber">Serial Number</label>
-                <input type="number" name="serialNumber" id="serialNumber" class="form-control"  value="{{ $maxSerialNumber }}" required readonly>
+                <input type="number" name="serialNumber" id="serialNumber" class="form-control" value="{{ $maxSerialNumber }}" required readonly>
             </div>
 
 
@@ -108,6 +110,11 @@
             <div class="form-group">
                 <label for="featuresCount">Features Count</label>
                 <input type="number" name="featuresCount" id="featuresCount" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="citation_text">Citation Text</label>
+                <textarea name="citation_text" id="citation_text" class="form-control" rows="4" required> </textarea>
             </div>
 
             <div class="form-group">
@@ -222,10 +229,10 @@
                     <th scope="col">Publically Available</th>
                     <th scope="col">Count of Records</th>
                     <th scope="col">Features Count</th>
+                    <th scope="col">Citation Text</th>
                     <th scope="col">Citations</th>
                     <th scope="col">DOI</th>
                     <th scope="col">Download Links</th>
-                    <!-- <th scope="col">Abstract</th> -->
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -246,10 +253,15 @@
                     <td>{{ $dataset->publicallyAvailable ? 'Yes' : 'No' }}</td>
                     <td>{{ $dataset->countRecords }}</td>
                     <td>{{ $dataset->featuresCount }}</td>
+                    <td>
+                        <div class="d-flex flex-column gap-2">
+                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->citation_text) !!}`)">Copy</button>
+                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->citation_text) !!}`, 'citation_{{ $dataset->id }}.txt')">Download</button>
+                        </div>
+                    </td>
                     <td>{{ $dataset->citations }}</td>
                     <td><a class="btn btn-dark btn-sm" href="{{ $dataset->doi }}" target="_blank">DOI</a></td>
                     <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
-                    <!-- <td>{{ Str::limit($dataset->abstract, 50) }} {{-- Limiting abstract to 50 chars --}}</td> -->
                     <td>
                         @auth
                         <a href="{{ route('dataset-details', $dataset->id) }}" class="btn btn-success btn-sm my-2">Details</a>
@@ -301,6 +313,33 @@
             abstractRow.style.display = 'none';
             button.textContent = '⬇';
         }
+    }
+
+    function copyToClipboard(text) {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        alert('Citation text copied to clipboard!');
+    }
+
+
+
+    function downloadCitation(text, filename) {
+
+        const blob = new Blob([text], {
+            type: "text/plain"
+        });
+
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+
+        link.click();
+
+        URL.revokeObjectURL(link.href);
     }
 
 

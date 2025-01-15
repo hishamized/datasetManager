@@ -50,6 +50,8 @@
                     <th>Publically Available</th>
                     <th>Count of Records</th>
                     <th>Features Count</th>
+                    <th>Citation Text</th>
+                    <th>Number of citations</th>
                     <th>DOI</th>
                     <th>Download Links</th>
                     <th>Status</th>
@@ -78,6 +80,13 @@
                     <td>{{ $request->publicallyAvailable }}</td>
                     <td>{{ $request->countRecords }}</td>
                     <td>{{ $request->featuresCount }}</td>
+                    <td>
+                        <div class="d-flex flex-column gap-2">
+                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($request->citation_text) !!}`)">Copy</button>
+                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($request->citation_text) !!}`, 'citation_{{ $request->id }}.txt')">Download</button>
+                        </div>
+                    </td>
+                    <td>{{ $request->citations }}</td>
                     <td> <a href="{{ $request->doi }}" class="btn btn-dark btn-sm">DOI</a>  </td>
                     <td><a href="{{ $request->downloadLinks }}" class="btn btn-success btn-sm">Download</a></td>
                     <td>
@@ -125,5 +134,33 @@
             button.textContent = '⬇';
         }
     }
+
+    function copyToClipboard(text) {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        alert('Citation text copied to clipboard!');
+    }
+
+
+
+    function downloadCitation(text, filename) {
+
+        const blob = new Blob([text], {
+            type: "text/plain"
+        });
+
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+
+        link.click();
+
+        URL.revokeObjectURL(link.href);
+    }
+
 </script>
 @endsection

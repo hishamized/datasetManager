@@ -75,6 +75,13 @@
             <input type="number" class="form-control" id="featuresCount" name="featuresCount" value="{{ old('featuresCount', $dataset->featuresCount ?? '') }}" required>
         </div>
 
+        <div class="form-group">
+            <label for="citation_text">Citation Text</label>
+            <textarea name="citation_text" id="citation_text" class="form-control" required>
+            {{ old('citations', $dataset->citation_text ?? '') }}
+            </textarea>
+        </div>
+
         <div class="form-group m-2">
             <label for="classesCount">No. of citations</label>
             <input type="number" class="form-control" id="citations" name="citations" value="{{ old('citations', $dataset->citations ?? '') }}" required>

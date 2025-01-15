@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('internalCSS')
 <style>
-    .form-group{
+    .form-group {
         margin: 20px 0;
     }
 </style>
@@ -109,9 +109,14 @@
         </div>
 
         <div class="form-group">
-                <label for="citations">Features Count</label>
-                <input type="number" name="citations" id="citations" class="form-control" required>
-            </div>
+            <label for="citation_text">Citation Text</label>
+            <textarea name="citation_text" id="citation_text" class="form-control" rows="4" required> </textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="citations">No. of citations</label>
+            <input type="number" name="citations" id="citations" class="form-control" required>
+        </div>
 
 
         <div class="form-group">

@@ -10,13 +10,36 @@ use App\Models\ContributionRequest;
 
 class GuestController extends Controller
 {
+    public function landingPage()
+    {
+
+        if (Project::count() == 0) {
+            return view('welcome');
+        }
+
+        $project_id = Project::where(function ($query) {
+            $query->where('title', 'like', '%intrusion%')
+                ->orWHere('title', 'like', '%detection%')
+                ->orWHere('description', 'like', '%intrusion%')
+                ->orWHere('description', 'like', '%detection%');
+        })->first()->id;
+
+        if($project_id){
+            return redirect()->route('project.show.publicly', ['id' => $project_id]);
+        } else {
+            return view('welcome');
+        }
+
+
+    }
     public function showProjectsPublicly()
     {
         $projects = Project::all();
         return view('projects.showProjectsPublicly', ['projects' => $projects]);
     }
 
-    public function searchProjectsPublic(Request $request){
+    public function searchProjectsPublic(Request $request)
+    {
         $validatedData = $request->validate([
             'search' => 'nullable|string',
             'column' => 'nullable|string',
@@ -95,7 +118,7 @@ class GuestController extends Controller
     {
         $project = Project::findOrFail($id);
         $maxSerialNumber = Dataset::where('project_id', $id)->max('serialNumber');
-        $maxSerialNumber = $maxSerialNumber ? $maxSerialNumber + 1 : 0;
+        $maxSerialNumber = isset($maxSerialNumber) ? $maxSerialNumber + 1 : 0;
         return view('projects.contributionRequests', ['project' => $project, 'maxSerialNumber' => $maxSerialNumber]);
     }
 
@@ -124,7 +147,8 @@ class GuestController extends Controller
             'publicallyAvailable' => 'required|in:yes,no',
             'countRecords' => 'required|string|max:255',
             'featuresCount' => 'required|integer',
-            'citations' => 'required|interger',
+            'citation_text' => 'required|string',
+            'citations' => 'required|integer',
             'doi' => 'nullable|string|max:255',
             'downloadLinks' => 'nullable|string',
             'abstract' => 'required|string',
@@ -155,13 +179,13 @@ class GuestController extends Controller
                 'publicallyAvailable' => $validatedData['publicallyAvailable'],
                 'countRecords' => $validatedData['countRecords'],
                 'featuresCount' => $validatedData['featuresCount'],
+                'citation_text' => $validatedData['citation_text'],
                 'citations' => $validatedData['citations'],
                 'doi' => $validatedData['doi'],
                 'downloadLinks' => $validatedData['downloadLinks'],
                 'abstract' => $validatedData['abstract'],
                 'status' => 'pending',
             ]);
-
         } catch (\Exception $e) {
 
 
@@ -178,5 +202,4 @@ class GuestController extends Controller
         $dataset = Dataset::find($id);
         return view('projects.datasetDetails', ['dataset' => $dataset]);
     }
-
 }

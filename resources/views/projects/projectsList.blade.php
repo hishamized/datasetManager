@@ -86,12 +86,12 @@
                     <td>
                         @auth
                         <a href="{{ route('project.edit', $project->id) }}" class="btn btn-warning btn-sm my-2">Edit</a>
-                        <a href="{{ route('project.show', $project->id) }}" class="btn btn-info btn-sm">View</a>
+                        <a href="{{ route('project.show', $project->id) }}" class="btn btn-info btn-sm my-2">View</a>
 
                         <form class="my-2" action="{{ route('project.destroy', $project->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this project?')">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm my-2" onclick="return confirm('Are you sure you want to delete this project?')">Delete</button>
                         </form>
                         @endauth
                     </td>

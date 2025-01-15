@@ -78,7 +78,7 @@ class ProjectController extends Controller
     public function showProject($id)
     {
         $maxSerialNumber = Dataset::where('project_id', $id)->max('serialNumber');
-        $maxSerialNumber = $maxSerialNumber ? $maxSerialNumber + 1 : 0;
+        $maxSerialNumber = isset($maxSerialNumber) ? $maxSerialNumber + 1 : 0;
 
         $project = Project::with('datasets')->find($id);
 
