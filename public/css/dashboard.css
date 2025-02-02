@@ -1,0 +1,69 @@
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background-color: #343a40;
+    color: white;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar .logo {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.sidebar .app-name {
+    text-align: center;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.sidebar .nav-item {
+    margin: 0.5rem 0;
+}
+
+#menu-btn {
+    font-size: 1.5rem;
+    /* position: fixed; */
+    /* top: 1rem; */
+    /* left: 1rem; */
+    z-index: 1100;
+    cursor: pointer;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
+}
+
+.menu-overlay.active {
+    display: block;
+}
+
+.hamburger {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cross {
+    font-size: 24px;
+    display: none;
+    cursor: pointer;
+}
+
+.logo img {
+    max-width: 60%;
+}

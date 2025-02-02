@@ -1,13 +1,10 @@
 @extends('layouts.app')
 @section('externalCSS')
-<link rel="stylesheet" href="{{ asset('css/viewProjectPublicly.css') }}">
+<link rel="stylesheet" href="{{ asset('css/landingNew.css') }}">
 @endsection
 
 @section('content')
 <div class="container">
-    <h1 class="my-4">Project Details</h1>
-
-
     @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -40,6 +37,10 @@
 
         <div id="sideMenu">
             <ul class="nav flex-column p-3 text-white">
+                <div class="logo">
+                    <img src="{{ asset('shield.png') }}" alt="Logo" class="img-fluid">
+                </div>
+                <div class="app-name">IDS Datasets</div>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="/">Home</a>
                 </li>
@@ -53,25 +54,45 @@
         <div id="menuOverlay"></div>
     </div>
 
-    <div class="card">
-        <div class="card-header d-flex flex-row justify-content-between align-items-center">
-            <h3>{{ $project->title }}</h3>
-
-            <div id="menuButton" class="p-2" style="z-index: 1001;">
-                <span class="hamburger">&#9776;</span>
-                <span class="cross">&times;</span>
-            </div>
+    <div class="container py-5">
+    <div class="row d-flex align-items-center">
+        <!-- Left Half: Heading and Paragraph -->
+        <div class="col-md-6">
+            <h1 class="display-4 text-primary">Intrusion Detection System Datasets</h1>
+            <p class="lead">
+                The Intrusion Detection System (IDS) project in network security focuses on identifying and mitigating
+                unauthorized access and cyber threats within networks. This home page serves as the central hub for managing
+                datasets related to this project, giving you the tools to efficiently organize, analyze, and track data
+                pertaining to intrusion detection. Explore the features to streamline your dataset management.
+            </p>
         </div>
-        <div class="card-body">
-            <p><strong>Description:</strong> {{ $project->description }}</p>
-            <p><strong>Start Date:</strong> {{ $project->start_date }}</p>
-            <p><strong>End Date:</strong> {{ $project->end_date }}</p>
-            <p><strong>Guide Name:</strong> {{ $project->guide_name }}</p>
-            <p><strong>Assigned Students:</strong> {{ $project->students }}</p>
+
+        <!-- Right Half: Logo and Buttons -->
+        <div class="col-md-6 text-center">
+            <img src="{{ asset('shield.png') }}" alt="IDS Logo" class="img-fluid mb-3" style="max-width: 40%;">
+            <h3 class="text-secondary">IDS - DATASETS</h3>
+
+            <!-- Small Menu with Buttons -->
+            <div class="btn-group mt-4">
+                <a href="{{ route('user.login') }}" class="btn btn-outline-primary">Dashboard</a>
+                @auth
+                <a href="{{ route('project.show', ['id' => $project->id ]) }}" class="btn btn-outline-info">Manage Datasets</a>
+                @endauth
+                <a href="{{ route('makeContributionRequest', $project->id) }}" class="btn btn-outline-info">Contribute</a>
+                <a href="#" id="settings" class="btn btn-outline-success">Settings</a>
+            </div>
         </div>
     </div>
 
-    <form class="m-4" action="{{ route('projectDatasets.searchPublic', $project->id) }}" method="GET">
+    <!-- Menu Button -->
+    <div id="menuButton" class="position-fixed p-2" style="z-index: 1001; right: 20px; top: 20px;">
+        <span class="hamburger" style="font-size: 2rem;">&#9776;</span>
+        <span class="cross" style="font-size: 2rem; display: none;">&times;</span>
+    </div>
+</div>
+
+
+    <form class="m-4" action="{{ route('searchLandingNew', $project->id) }}" method="get">
         @csrf
 
         <input type="text" name="search" placeholder="Search datasets..." class="form-control mb-2">
@@ -96,7 +117,7 @@
 
         <button type="submit" class="btn btn-primary">Search</button>
 
-        <a href="{{ route('project.show.publicly', $project->id) }}" class="btn btn-danger">Reset</a>
+        <a href="/" class="btn btn-danger">Reset</a>
     </form>
 
     <div class="table-responsive mt-4">
@@ -149,7 +170,7 @@
                         </div>
                     </td>
                     <td>
-                    <div class="d-flex flex-column gap-2">
+                        <div class="d-flex flex-column gap-2">
                             <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>
                             <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.txt')">Download</button>
                         </div>
@@ -228,6 +249,7 @@
         var $hamburger = $menuButton.find('.hamburger');
         var $cross = $menuButton.find('.cross');
         var $overlay = $('#menuOverlay');
+        var $settings = $('#settings');
 
         // Show the menu and toggle icons
         $menuButton.on('click', function() {
@@ -256,6 +278,14 @@
             $cross.hide();
             $overlay.hide();
         }
+
+        $settings.on('click', function() {
+            if ($sideMenu.hasClass('show')) {
+                hideMenu();
+            } else {
+                showMenu();
+            }
+        });
     });
 </script>
 @endsection

@@ -24,11 +24,13 @@ class CreateDatasetsTable extends Migration
             $table->string('countRecords');
             $table->integer('featuresCount');
             $table->text('citation_text');
+            $table->text('cite');
             $table->integer('citations');
             $table->string('doi')->nullable();
             $table->text('downloadLinks')->nullable();
             $table->text('abstract');
-            $table->json('custom_attributes')->nullable();
+            // $table->json('custom_attributes')->nullable();
+            $table->text('custom_attributes')->nullable();
 
             $table->timestamps();
 

@@ -1,0 +1,36 @@
+ #sideMenu {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #343a40;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  #sideMenu.show {
+    left: 0;
+  }
+
+  #menuOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
+  }
+
+  .hamburger {
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .cross {
+    font-size: 24px;
+    display: none;
+    cursor: pointer;
+  }

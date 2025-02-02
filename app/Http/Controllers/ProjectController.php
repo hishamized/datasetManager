@@ -77,6 +77,11 @@ class ProjectController extends Controller
 
     public function showProject($id)
     {
+
+        if (!Auth::check()) {
+            return redirect()->route('user.login')->with('error', 'You must login first.');
+        }
+
         $maxSerialNumber = Dataset::where('project_id', $id)->max('serialNumber');
         $maxSerialNumber = isset($maxSerialNumber) ? $maxSerialNumber + 1 : 0;
 

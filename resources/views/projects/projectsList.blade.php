@@ -60,8 +60,10 @@
     <div class="alert alert-info">
         You haven't created any projects yet.
     </div>
+    <a href="{{ route('project.create') }}" class="btn btn-success">Create Project</a>
     @else
     <div class="table-responsive mt-4">
+    <a href="{{ route('project.create') }}" class="btn btn-success my-2">Create New Project</a>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -78,7 +80,7 @@
                 @foreach ($projects as $project)
                 <tr>
                     <td>{{ $project->title }}</td>
-                    <td>{{ $project->description }}</td>
+                    <td>{{ \Illuminate\Support\Str::words($project->description, 25, '...') }}</td>
                     <td>{{ $project->start_date }}</td>
                     <td>{{ $project->end_date }}</td>
                     <td>{{ $project->students }}</td>

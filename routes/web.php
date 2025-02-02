@@ -21,6 +21,7 @@ Route::prefix('guest')->group(function () {
     Route::get('showProjectsPublicly', [GuestController::class, 'showProjectsPublicly'])->name('showProjectsPublicly');
     Route::get('projects/view/{id}', [GuestController::class, 'showProjectPublicly'])->name('project.show.publicly');
     Route::get('/projects/{id}/searchPublic', [GuestController::class, 'searchDatasetsPublic'])->name('projectDatasets.searchPublic');
+    Route::get('/projects/{id}/searchLandingNew', [GuestController::class, 'searchLandingNew'])->name('searchLandingNew');
 
     Route::get('projects/makeContributionRequest/{id}', [GuestController::class, 'makeContributionRequest'])->name('makeContributionRequest');
     Route::post('projects/contributionRequest', [GuestController::class, 'submitContributionRequest'])->name('contribution.submit');
@@ -28,7 +29,6 @@ Route::prefix('guest')->group(function () {
     Route::get('projects/dataset-details-publicly/{id}', [GuestController::class, 'showDatasetDetailsPublicly'])->name('showDatasetDetailsPublicly');
 
     Route::post('projects/searchPublic', [GuestController::class, 'searchProjectsPublic'])->name('projects.search.public');
-
 });
 
 

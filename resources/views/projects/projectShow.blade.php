@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('internalCSS')
 <style>
     .form-group {
@@ -118,6 +119,11 @@
             </div>
 
             <div class="form-group">
+                <label for="cite">CITE</label>
+                <textarea name="cite" id="cite" class="form-control" rows="4" required> </textarea>
+            </div>
+
+            <div class="form-group">
                 <label for="citations">No. of citations</label>
                 <input type="number" name="citations" id="citations" class="form-control" required>
             </div>
@@ -202,6 +208,8 @@
                     <option value="publicallyAvailable" {{ request()->get('column') == 'publicallyAvailable' ? 'selected' : '' }}>Publically Available</option>
                     <option value="countRecords" {{ request()->get('column') == 'countRecords' ? 'selected' : '' }}>Count of Records</option>
                     <option value="featuresCount" {{ request()->get('column') == 'featuresCount' ? 'selected' : '' }}>Features Count</option>
+                    <option value="citation_text" {{ request()->get('column') == 'citation_text' ? 'selected' : '' }}>Citation Text</option>
+                    <option value="cite" {{ request()->get('column') == 'cite' ? 'selected' : '' }}>Cite</option>
                     <option value="doi" {{ request()->get('column') == 'doi' ? 'selected' : '' }}>DOI</option>
                     <option value="downloadLinks" {{ request()->get('column') == 'downloadLinks' ? 'selected' : '' }}>Download Links</option>
                     <option value="abstract" {{ request()->get('column') == 'abstract' ? 'selected' : '' }}>Abstract</option>
@@ -219,6 +227,11 @@
 
 
     <div class="table-responsive mt-4">
+        @if($datasets->isEmpty())
+        <div class="alert alert-info">
+            No datasets available for this project.
+        </div>
+        @else
         <table class="table table-hover table-bordered table-striped">
             <thead class="thead-dark">
                 <tr>
@@ -230,7 +243,15 @@
                     <th scope="col">Count of Records</th>
                     <th scope="col">Features Count</th>
                     <th scope="col">Citation Text</th>
-                    <th scope="col">Citations</th>
+                    <th scope="col">CITE</th>
+                    <th scope="col">
+                        <div class="d-flex flex-row gap-2">
+                            Citations
+                            <strong class="text-danger">
+                                (*)
+                            </strong>
+                        </div>
+                    </th>
                     <th scope="col">DOI</th>
                     <th scope="col">Download Links</th>
                     <th scope="col">Actions</th>
@@ -259,12 +280,18 @@
                             <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->citation_text) !!}`, 'citation_{{ $dataset->id }}.txt')">Download</button>
                         </div>
                     </td>
+                    <td>
+                        <div class="d-flex flex-column gap-2">
+                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>
+                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.txt')">Download</button>
+                        </div>
+                    </td>
                     <td>{{ $dataset->citations }}</td>
                     <td><a class="btn btn-dark btn-sm" href="{{ $dataset->doi }}" target="_blank">DOI</a></td>
                     <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
                     <td>
                         @auth
-                        <a href="{{ route('dataset-details', $dataset->id) }}" class="btn btn-success btn-sm my-2">Details</a>
+                        <a href="{{ route('dataset-details', $dataset->id) }}" class="btn btn-success btn-sm my-2">Dataset Overview</a>
                         <a href="{{ route('showEditDataset', $dataset->id) }}" class="btn btn-warning btn-sm my-2">Edit</a>
                         <form action="{{ route('deleteDataset', $dataset->id) }}" method="POST" style="display:inline;">
                             @csrf
@@ -282,6 +309,11 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="d-flex flex-row justify-content-end align-content-center p-2">
+            <strong class="text-danger">(*)</strong>
+            <p>Total Citations as of {{ \Carbon\Carbon::now()->format('F Y') }} </p>
+        </div>
+        @endif
     </div>
 
 

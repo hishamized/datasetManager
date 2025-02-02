@@ -22,6 +22,7 @@ class ContributionRequest extends Model
         'countRecords',
         'featuresCount',
         'citation_text',
+        'cite',
         'citations',
         'doi',
         'downloadLinks',

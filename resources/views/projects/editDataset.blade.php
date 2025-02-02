@@ -82,6 +82,15 @@
             </textarea>
         </div>
 
+        <div class="form-group">
+            <label for="cite">Citation Text</label>
+            <textarea name="cite" id="cite" class="form-control" required>
+            {{ old('cite', $dataset->cite ?? '') }}
+            </textarea>
+        </div>
+
+
+
         <div class="form-group m-2">
             <label for="classesCount">No. of citations</label>
             <input type="number" class="form-control" id="citations" name="citations" value="{{ old('citations', $dataset->citations ?? '') }}" required>

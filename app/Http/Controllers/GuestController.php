@@ -17,15 +17,16 @@ class GuestController extends Controller
             return view('welcome');
         }
 
-        $project_id = Project::where(function ($query) {
+        $project = Project::where(function ($query) {
             $query->where('title', 'like', '%intrusion%')
                 ->orWHere('title', 'like', '%detection%')
                 ->orWHere('description', 'like', '%intrusion%')
                 ->orWHere('description', 'like', '%detection%');
-        })->first()->id;
+        })->first();
 
-        if($project_id){
-            return redirect()->route('project.show.publicly', ['id' => $project_id]);
+        if($project){
+            $datasets = $project->datasets;
+            return view('landingNew', ['project' => $project, 'datasets' => $datasets]);
         } else {
             return view('welcome');
         }
@@ -77,6 +78,8 @@ class GuestController extends Controller
 
     public function searchDatasetsPublic(Request $request, $id)
     {
+        $maxSerialNumber = Dataset::where('project_id', $id)->max('serialNumber');
+        $maxSerialNumber = isset($maxSerialNumber) ? $maxSerialNumber + 1 : 0;
 
         $searchQuery = $request->input('search');
         $column = $request->input('column');
@@ -102,6 +105,8 @@ class GuestController extends Controller
                             ->orWhere('publicallyAvailable', 'like', '%' . $searchQuery . '%')
                             ->orWhere('countRecords', 'like', '%' . $searchQuery . '%')
                             ->orWhere('featuresCount', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('citation_text', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('cite', 'like', '%' . $searchQuery . '%')
                             ->orWhere('doi', 'like', '%' . $searchQuery . '%')
                             ->orWhere('downloadLinks', 'like', '%' . $searchQuery . '%')
                             ->orWhere('abstract', 'like', '%' . $searchQuery . '%');
@@ -111,8 +116,52 @@ class GuestController extends Controller
         }
 
 
-        return view('projects.viewProjectPublicly', compact('project', 'datasets'));
+        return view('projects.viewProjectPublicly', compact('project', 'datasets', 'maxSerialNumber'));
     }
+
+    public function searchLandingNew(Request $request, $id)
+    {
+        $maxSerialNumber = Dataset::where('project_id', $id)->max('serialNumber');
+        $maxSerialNumber = isset($maxSerialNumber) ? $maxSerialNumber + 1 : 0;
+
+        $searchQuery = $request->input('search');
+        $column = $request->input('column');
+
+
+        $project = Project::findOrFail($id);
+
+
+        if (empty($searchQuery)) {
+            $datasets = Dataset::where('project_id', $id)->get();
+        } else {
+
+            $datasets = Dataset::where('project_id', $id)
+                ->when($column !== 'all', function ($query) use ($column, $searchQuery) {
+                    return $query->where($column, 'like', '%' . $searchQuery . '%');
+                }, function ($query) use ($searchQuery) {
+
+                    return $query->where(function ($query) use ($searchQuery) {
+                        $query->where('serialNumber', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('dataset', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('year', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('kindOfTraffic', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('publicallyAvailable', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('countRecords', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('featuresCount', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('citation_text', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('cite', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('doi', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('downloadLinks', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('abstract', 'like', '%' . $searchQuery . '%');
+                    });
+                })
+                ->get();
+        }
+
+
+        return view('landingNew', compact('project', 'datasets', 'maxSerialNumber'));
+    }
+
 
     public function makeContributionRequest($id)
     {
@@ -148,6 +197,7 @@ class GuestController extends Controller
             'countRecords' => 'required|string|max:255',
             'featuresCount' => 'required|integer',
             'citation_text' => 'required|string',
+            'cite' => 'required|string',
             'citations' => 'required|integer',
             'doi' => 'nullable|string|max:255',
             'downloadLinks' => 'nullable|string',
@@ -180,6 +230,7 @@ class GuestController extends Controller
                 'countRecords' => $validatedData['countRecords'],
                 'featuresCount' => $validatedData['featuresCount'],
                 'citation_text' => $validatedData['citation_text'],
+                'cite' => $validatedData['cite'],
                 'citations' => $validatedData['citations'],
                 'doi' => $validatedData['doi'],
                 'downloadLinks' => $validatedData['downloadLinks'],

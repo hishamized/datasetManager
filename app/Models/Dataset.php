@@ -12,6 +12,9 @@ class Dataset extends Model
 
     protected $table = 'datasets';
 
+    protected $casts = [
+        'custom_attributes' => 'array',
+    ];
 
     protected $fillable = [
         'project_id',
@@ -23,6 +26,7 @@ class Dataset extends Model
         'countRecords',
         'featuresCount',
         'citation_text',
+        'cite',
         'citations',
         'doi',
         'downloadLinks',

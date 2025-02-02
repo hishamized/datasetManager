@@ -114,6 +114,11 @@
         </div>
 
         <div class="form-group">
+            <label for="cite">CITE</label>
+            <textarea name="cite" id="cite" class="form-control" rows="4" required> </textarea>
+        </div>
+
+        <div class="form-group">
             <label for="citations">No. of citations</label>
             <input type="number" name="citations" id="citations" class="form-control" required>
         </div>
@@ -137,7 +142,9 @@
         </div>
 
 
-        <button type="submit" class="btn btn-success">Submit Contribution</button>
+        <button type="submit" class="btn btn-success my-2">Submit Contribution</button>
     </form>
 </div>
 @endsection
+
+
