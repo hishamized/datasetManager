@@ -25,7 +25,6 @@ class DatasetController extends Controller
             'publicallyAvailable' => 'required|in:yes,no',
             'countRecords' => 'required|string|max:255',
             'featuresCount' => 'required|numeric',
-            'citation_text' => 'required|string',
             'cite' => 'required|string',
             'citations' => 'required|numeric',
             'doi' => 'required|string|max:255',
@@ -54,7 +53,6 @@ class DatasetController extends Controller
                 'countRecords' => $request->countRecords,
                 'featuresCount' => $request->featuresCount,
                 'doi' => $request->doi,
-                'citation_text' => $request->citation_text,
                 'cite' => $request->cite,
                 'citations' => $request->citations,
                 'downloadLinks' => $request->downloadLinks,
@@ -92,7 +90,6 @@ class DatasetController extends Controller
             'publicallyAvailable' => 'required|in:yes,no',
             'countRecords' => 'required|string|max:255',
             'featuresCount' => 'required|numeric',
-            'citation_text' => 'required|string',
             'cite' => 'required|string',
             'citations' => 'required|numeric',
             'doi' => 'required|string|max:255',
@@ -118,7 +115,6 @@ class DatasetController extends Controller
                 'publicallyAvailable' => $request->publicallyAvailable,
                 'countRecords' => $request->countRecords,
                 'featuresCount' => $request->featuresCount,
-                'citation_text' => $request->citation_text,
                 'cite' => $request->cite,
                 'citations' => $request->citations,
                 'doi' => $request->doi,
@@ -152,7 +148,6 @@ class DatasetController extends Controller
                     ->orWhere('publicallyAvailable', 'LIKE', "%$searchString%")
                     ->orWhere('countRecords', 'LIKE', "%$searchString%")
                     ->orWhere('featuresCount', 'LIKE', "%$searchString%")
-                    ->orWhere('citation_text', 'LIKE', "%$searchString%")
                     ->orWhere('cite', 'LIKE', "%$searchString%")
                     ->orWhere('doi', 'LIKE', "%$searchString%")
                     ->orWhere('downloadLinks', 'LIKE', "%$searchString%")
@@ -189,7 +184,6 @@ class DatasetController extends Controller
          $dataset->publicallyAvailable = $contributionRequest->publicallyAvailable;
          $dataset->countRecords = $contributionRequest->countRecords;
          $dataset->featuresCount = $contributionRequest->featuresCount;
-         $dataset->citation_text = $contributionRequest->citation_text;
          $dataset->cite = $contributionRequest->cite;
          $dataset->citations = $contributionRequest->citations;
          $dataset->doi = $contributionRequest->doi;

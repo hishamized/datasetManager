@@ -50,7 +50,6 @@
                     <th>Publically Available</th>
                     <th>Count of Records</th>
                     <th>Features Count</th>
-                    <th>Citation Text</th>
                     <th>CITE</th>
                     <th>Number of citations</th>
                     <th>DOI</th>
@@ -81,12 +80,6 @@
                     <td>{{ $request->publicallyAvailable }}</td>
                     <td>{{ $request->countRecords }}</td>
                     <td>{{ $request->featuresCount }}</td>
-                    <td>
-                        <div class="d-flex flex-column gap-2">
-                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($request->citation_text) !!}`)">Copy</button>
-                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($request->citation_text) !!}`, 'citation_{{ $request->id }}.txt')">Download</button>
-                        </div>
-                    </td>
                     <td>
                     <div class="d-flex flex-column gap-2">
                             <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($request->cite) !!}`)">Copy</button>

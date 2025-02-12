@@ -32,13 +32,6 @@
                     <p><strong>Count of Records:</strong> {{ $dataset->countRecords }}</p>
                     <p><strong>Features Count:</strong> {{ $dataset->featuresCount }}</p>
                     <!-- Citation Text Section -->
-                    <div class="mb-4">
-                        <h5 class="card-title">Citation Text</h5>
-                        <div class="d-flex flex-column gap-2">
-                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->citation_text) !!}`)">Copy</button>
-                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->citation_text) !!}`, 'citation_{{ $dataset->id }}.txt')">Download</button>
-                        </div>
-                    </div>
 
                     <!-- CITE Section -->
                     <div class="mb-4">
@@ -85,6 +78,7 @@
 
             @auth
             <a href="{{ route('project.show', $dataset->project->id) }}" class="btn btn-secondary my-2">Back to Datasets</a>
+            <a href="{{ route('showEditDataset', $dataset->id) }}" class="btn btn-warning my-2">Edit Dataset</a>
             @endauth
 
             @guest

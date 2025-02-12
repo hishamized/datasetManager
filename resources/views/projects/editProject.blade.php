@@ -37,37 +37,37 @@
         @method('PUT')
 
 
-        <div class="form-group">
+        <div class="form-group my-2">
             <label for="title">Project Title</label>
             <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $project->title ?? '') }}" required>
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group my-2">
             <label for="description">Description</label>
             <textarea class="form-control" id="description" name="description" rows="4">{{ old('description', $project->description ?? '') }}</textarea>
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group my-2">
             <label for="start_date">Start Date</label>
             <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date', $project->start_date ?? '') }}" required>
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group my-2">
             <label for="end_date">End Date</label>
             <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date', $project->end_date ?? '') }}" required>
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group my-2">
             <label for="students">Students Involved</label>
             <textarea class="form-control" id="students" name="students" rows="2">{{ old('students', $project->students ?? '') }}</textarea>
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group my-2">
             <label for="guide_name">Guide Name</label>
             <input type="text" class="form-control" id="guide_name" name="guide_name" value="{{ old('guide_name', $project->guide_name ?? '') }}" required>
         </div>

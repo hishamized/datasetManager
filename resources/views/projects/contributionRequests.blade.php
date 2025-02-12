@@ -109,11 +109,6 @@
         </div>
 
         <div class="form-group">
-            <label for="citation_text">Citation Text</label>
-            <textarea name="citation_text" id="citation_text" class="form-control" rows="4" required> </textarea>
-        </div>
-
-        <div class="form-group">
             <label for="cite">CITE</label>
             <textarea name="cite" id="cite" class="form-control" rows="4" required> </textarea>
         </div>

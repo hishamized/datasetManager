@@ -25,7 +25,6 @@ class Dataset extends Model
         'publicallyAvailable',
         'countRecords',
         'featuresCount',
-        'citation_text',
         'cite',
         'citations',
         'doi',

@@ -26,7 +26,6 @@ class CreateContributionRequestsTable extends Migration
             $table->enum('publicallyAvailable', ['yes', 'no']);
             $table->string('countRecords');
             $table->integer('featuresCount');
-            $table->text('citation_text');
             $table->text('cite');
             $table->integer('citations');
             $table->string('doi')->nullable();

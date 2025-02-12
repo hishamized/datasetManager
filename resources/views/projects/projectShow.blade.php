@@ -114,11 +114,6 @@
             </div>
 
             <div class="form-group">
-                <label for="citation_text">Citation Text</label>
-                <textarea name="citation_text" id="citation_text" class="form-control" rows="4" required> </textarea>
-            </div>
-
-            <div class="form-group">
                 <label for="cite">CITE</label>
                 <textarea name="cite" id="cite" class="form-control" rows="4" required> </textarea>
             </div>
@@ -208,7 +203,6 @@
                     <option value="publicallyAvailable" {{ request()->get('column') == 'publicallyAvailable' ? 'selected' : '' }}>Publically Available</option>
                     <option value="countRecords" {{ request()->get('column') == 'countRecords' ? 'selected' : '' }}>Count of Records</option>
                     <option value="featuresCount" {{ request()->get('column') == 'featuresCount' ? 'selected' : '' }}>Features Count</option>
-                    <option value="citation_text" {{ request()->get('column') == 'citation_text' ? 'selected' : '' }}>Citation Text</option>
                     <option value="cite" {{ request()->get('column') == 'cite' ? 'selected' : '' }}>Cite</option>
                     <option value="doi" {{ request()->get('column') == 'doi' ? 'selected' : '' }}>DOI</option>
                     <option value="downloadLinks" {{ request()->get('column') == 'downloadLinks' ? 'selected' : '' }}>Download Links</option>
@@ -242,7 +236,6 @@
                     <th scope="col">Publically Available</th>
                     <th scope="col">Count of Records</th>
                     <th scope="col">Features Count</th>
-                    <th scope="col">Citation Text</th>
                     <th scope="col">CITE</th>
                     <th scope="col">
                         <div class="d-flex flex-row gap-2">
@@ -274,12 +267,6 @@
                     <td>{{ $dataset->publicallyAvailable ? 'Yes' : 'No' }}</td>
                     <td>{{ $dataset->countRecords }}</td>
                     <td>{{ $dataset->featuresCount }}</td>
-                    <td>
-                        <div class="d-flex flex-column gap-2">
-                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->citation_text) !!}`)">Copy</button>
-                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->citation_text) !!}`, 'citation_{{ $dataset->id }}.txt')">Download</button>
-                        </div>
-                    </td>
                     <td>
                         <div class="d-flex flex-column gap-2">
                             <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>

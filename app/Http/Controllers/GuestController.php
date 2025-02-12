@@ -105,7 +105,6 @@ class GuestController extends Controller
                             ->orWhere('publicallyAvailable', 'like', '%' . $searchQuery . '%')
                             ->orWhere('countRecords', 'like', '%' . $searchQuery . '%')
                             ->orWhere('featuresCount', 'like', '%' . $searchQuery . '%')
-                            ->orWhere('citation_text', 'like', '%' . $searchQuery . '%')
                             ->orWhere('cite', 'like', '%' . $searchQuery . '%')
                             ->orWhere('doi', 'like', '%' . $searchQuery . '%')
                             ->orWhere('downloadLinks', 'like', '%' . $searchQuery . '%')
@@ -148,7 +147,6 @@ class GuestController extends Controller
                             ->orWhere('publicallyAvailable', 'like', '%' . $searchQuery . '%')
                             ->orWhere('countRecords', 'like', '%' . $searchQuery . '%')
                             ->orWhere('featuresCount', 'like', '%' . $searchQuery . '%')
-                            ->orWhere('citation_text', 'like', '%' . $searchQuery . '%')
                             ->orWhere('cite', 'like', '%' . $searchQuery . '%')
                             ->orWhere('doi', 'like', '%' . $searchQuery . '%')
                             ->orWhere('downloadLinks', 'like', '%' . $searchQuery . '%')
@@ -196,7 +194,6 @@ class GuestController extends Controller
             'publicallyAvailable' => 'required|in:yes,no',
             'countRecords' => 'required|string|max:255',
             'featuresCount' => 'required|integer',
-            'citation_text' => 'required|string',
             'cite' => 'required|string',
             'citations' => 'required|integer',
             'doi' => 'nullable|string|max:255',
@@ -229,7 +226,6 @@ class GuestController extends Controller
                 'publicallyAvailable' => $validatedData['publicallyAvailable'],
                 'countRecords' => $validatedData['countRecords'],
                 'featuresCount' => $validatedData['featuresCount'],
-                'citation_text' => $validatedData['citation_text'],
                 'cite' => $validatedData['cite'],
                 'citations' => $validatedData['citations'],
                 'doi' => $validatedData['doi'],

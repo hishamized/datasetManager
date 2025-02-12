@@ -76,13 +76,6 @@
         </div>
 
         <div class="form-group">
-            <label for="citation_text">Citation Text</label>
-            <textarea name="citation_text" id="citation_text" class="form-control" required>
-            {{ old('citations', $dataset->citation_text ?? '') }}
-            </textarea>
-        </div>
-
-        <div class="form-group">
             <label for="cite">Citation Text</label>
             <textarea name="cite" id="cite" class="form-control" required>
             {{ old('cite', $dataset->cite ?? '') }}

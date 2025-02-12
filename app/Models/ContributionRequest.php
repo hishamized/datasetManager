@@ -21,7 +21,6 @@ class ContributionRequest extends Model
         'publicallyAvailable',
         'countRecords',
         'featuresCount',
-        'citation_text',
         'cite',
         'citations',
         'doi',

@@ -84,12 +84,14 @@
         </div>
     </div>
 
-    <!-- Menu Button -->
-    <div id="menuButton" class="position-fixed p-2" style="z-index: 1001; right: 20px; top: 20px;">
+    <!-- Menu Button
+    <div id="menuButton" style="z-index: 1001; right: 20px; top: 20px;">
         <span class="hamburger" style="font-size: 2rem;">&#9776;</span>
         <span class="cross" style="font-size: 2rem; display: none;">&times;</span>
     </div>
+-->
 </div>
+
 
 
     <form class="m-4" action="{{ route('searchLandingNew', $project->id) }}" method="get">
@@ -107,7 +109,6 @@
             <option value="publicallyAvailable">Publicly Available</option>
             <option value="countRecords">Count of Records</option>
             <option value="featuresCount">Features Count</option>
-            <option value="citation_text">Citation Text</option>
             <option value="cite">Cite</option>
             <option value="doi">DOI</option>
             <option value="downloadLinks">Download Links</option>
@@ -131,7 +132,6 @@
                     <th scope="col">Publically Available</th>
                     <th scope="col">Count of Records</th>
                     <th scope="col">Features Count</th>
-                    <th scope="col">Citation Text</th>
                     <th scope="col">CITE</th>
                     <th scope="col">
                         <div class="d-flex flex-row gap-2">
@@ -163,12 +163,6 @@
                     <td>{{ $dataset->publicallyAvailable ? 'Yes' : 'No' }}</td>
                     <td>{{ $dataset->countRecords }}</td>
                     <td>{{ $dataset->featuresCount }}</td>
-                    <td>
-                        <div class="d-flex flex-column gap-2">
-                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->citation_text) !!}`)">Copy</button>
-                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->citation_text) !!}`, 'citation_{{ $dataset->id }}.txt')">Download</button>
-                        </div>
-                    </td>
                     <td>
                         <div class="d-flex flex-column gap-2">
                             <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>
