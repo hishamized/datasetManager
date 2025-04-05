@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <p><strong>No. of citations:</strong> {{ $dataset->citations }}</p>
-                    <p><strong>DOI:</strong> {{ $dataset->doi ?? 'N/A' }}</p>
+                    <p><strong>Attack Type:</strong> {{ $dataset->attackType ?? 'N/A' }}</p>
 
                     <!-- Download Links -->
                     @if($dataset->downloadLinks)

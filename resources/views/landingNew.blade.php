@@ -54,46 +54,6 @@
         <div id="menuOverlay"></div>
     </div>
 
-    <div class="container py-5">
-    <div class="row d-flex align-items-center">
-        <!-- Left Half: Heading and Paragraph -->
-        <div class="col-md-6">
-            <h1 class="display-4 text-primary">Intrusion Detection System Datasets</h1>
-            <p class="lead">
-                The Intrusion Detection System (IDS) project in network security focuses on identifying and mitigating
-                unauthorized access and cyber threats within networks. This home page serves as the central hub for managing
-                datasets related to this project, giving you the tools to efficiently organize, analyze, and track data
-                pertaining to intrusion detection. Explore the features to streamline your dataset management.
-            </p>
-        </div>
-
-        <!-- Right Half: Logo and Buttons -->
-        <div class="col-md-6 text-center">
-            <img src="{{ asset('shield.png') }}" alt="IDS Logo" class="img-fluid mb-3" style="max-width: 40%;">
-            <h3 class="text-secondary">IDS - DATASETS</h3>
-
-            <!-- Small Menu with Buttons -->
-            <div class="btn-group mt-4">
-                <a href="{{ route('user.login') }}" class="btn btn-outline-primary">Dashboard</a>
-                @auth
-                <a href="{{ route('project.show', ['id' => $project->id ]) }}" class="btn btn-outline-info">Manage Datasets</a>
-                @endauth
-                <a href="{{ route('makeContributionRequest', $project->id) }}" class="btn btn-outline-info">Contribute</a>
-                <a href="#" id="settings" class="btn btn-outline-success">Settings</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Menu Button
-    <div id="menuButton" style="z-index: 1001; right: 20px; top: 20px;">
-        <span class="hamburger" style="font-size: 2rem;">&#9776;</span>
-        <span class="cross" style="font-size: 2rem; display: none;">&times;</span>
-    </div>
--->
-</div>
-
-
-
     <form class="m-4" action="{{ route('searchLandingNew', $project->id) }}" method="get">
         @csrf
 
@@ -110,7 +70,7 @@
             <option value="countRecords">Count of Records</option>
             <option value="featuresCount">Features Count</option>
             <option value="cite">Cite</option>
-            <option value="doi">DOI</option>
+            <option value="attackType">Attack Type</option>
             <option value="downloadLinks">Download Links</option>
             <option value="abstract">Abstract</option>
         </select>
@@ -141,7 +101,7 @@
                             </strong>
                         </div>
                     </th>
-                    <th scope="col">DOI</th>
+                    <th scope="col">Attack Type</th>
                     <th scope="col">Download Links</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -166,11 +126,11 @@
                     <td>
                         <div class="d-flex flex-column gap-2">
                             <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>
-                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.txt')">Download</button>
+                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.bib')">Download</button>
                         </div>
                     </td>
                     <td>{{ $dataset->citations }}</td>
-                    <td><a class="btn btn-dark btn-sm" href="{{ $dataset->doi }}" target="_blank">DOI</a></td>
+                    <td>{{ $dataset->attackType }}</td>
                     <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
 
                     <td>
@@ -191,7 +151,40 @@
         </div>
     </div>
 
+    <div class="container py-5">
+        <div class="row d-flex align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 text-primary">Intrusion Detection System Datasets</h1>
+                <p class="lead">
+                    The Intrusion Detection System (IDS) project in network security focuses on identifying and mitigating
+                    unauthorized access and cyber threats within networks. This home page serves as the central hub for managing
+                    datasets related to this project, giving you the tools to efficiently organize, analyze, and track data
+                    pertaining to intrusion detection. Explore the features to streamline your dataset management.
+                </p>
+            </div>
 
+            <div class="col-md-6 text-center">
+                <img src="{{ asset('shield.png') }}" alt="IDS Logo" class="img-fluid mb-3" style="max-width: 40%;">
+                <h3 class="text-secondary">IDS - DATASETS</h3>
+
+                <div class="btn-group mt-4">
+                    <a href="{{ route('user.login') }}" class="btn btn-outline-primary">Dashboard</a>
+                    @auth
+                    <a href="{{ route('project.show', ['id' => $project->id ]) }}" class="btn btn-outline-info">Manage Datasets</a>
+                    @endauth
+                    <a href="{{ route('makeContributionRequest', $project->id) }}" class="btn btn-outline-info">Contribute</a>
+                    <a href="#" id="settings" class="btn btn-outline-success">Settings</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Button
+    <div id="menuButton" style="z-index: 1001; right: 20px; top: 20px;">
+        <span class="hamburger" style="font-size: 2rem;">&#9776;</span>
+        <span class="cross" style="font-size: 2rem; display: none;">&times;</span>
+    </div>
+-->
+    </div>
 </div>
 
 <script>
@@ -221,17 +214,17 @@
         alert("Citation text copied to clipboard!");
     }
 
-
     function downloadCitation(text, filename) {
-        const blob = new Blob([text], {
-            type: "text/plain"
-        });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-        link.click();
-        URL.revokeObjectURL(link.href);
-    }
+    const blob = new Blob([text], {
+        type: "application/x-bibtex"
+    });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

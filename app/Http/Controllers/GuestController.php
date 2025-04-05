@@ -106,7 +106,7 @@ class GuestController extends Controller
                             ->orWhere('countRecords', 'like', '%' . $searchQuery . '%')
                             ->orWhere('featuresCount', 'like', '%' . $searchQuery . '%')
                             ->orWhere('cite', 'like', '%' . $searchQuery . '%')
-                            ->orWhere('doi', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('attackType', 'like', '%' . $searchQuery . '%')
                             ->orWhere('downloadLinks', 'like', '%' . $searchQuery . '%')
                             ->orWhere('abstract', 'like', '%' . $searchQuery . '%');
                     });
@@ -148,7 +148,7 @@ class GuestController extends Controller
                             ->orWhere('countRecords', 'like', '%' . $searchQuery . '%')
                             ->orWhere('featuresCount', 'like', '%' . $searchQuery . '%')
                             ->orWhere('cite', 'like', '%' . $searchQuery . '%')
-                            ->orWhere('doi', 'like', '%' . $searchQuery . '%')
+                            ->orWhere('attackType', 'like', '%' . $searchQuery . '%')
                             ->orWhere('downloadLinks', 'like', '%' . $searchQuery . '%')
                             ->orWhere('abstract', 'like', '%' . $searchQuery . '%');
                     });
@@ -196,7 +196,7 @@ class GuestController extends Controller
             'featuresCount' => 'required|integer',
             'cite' => 'required|string',
             'citations' => 'required|integer',
-            'doi' => 'nullable|string|max:255',
+            'attackType' => 'nullable|string|max:255',
             'downloadLinks' => 'nullable|string',
             'abstract' => 'required|string',
         ]);
@@ -228,7 +228,7 @@ class GuestController extends Controller
                 'featuresCount' => $validatedData['featuresCount'],
                 'cite' => $validatedData['cite'],
                 'citations' => $validatedData['citations'],
-                'doi' => $validatedData['doi'],
+                'attackType' => $validatedData['attackType'],
                 'downloadLinks' => $validatedData['downloadLinks'],
                 'abstract' => $validatedData['abstract'],
                 'status' => 'pending',

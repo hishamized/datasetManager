@@ -90,8 +90,8 @@
         </div>
 
         <div class="form-group m-2">
-            <label for="doi">DOI (Optional)</label>
-            <input type="text" class="form-control" id="doi" name="doi" value="{{ old('doi', $dataset->doi ?? '') }}">
+            <label for="attackType">Attack Type (Optional)</label>
+            <input type="text" class="form-control" id="attackType" name="attackType" value="{{ old('attackType', $dataset->attackType ?? '') }}">
         </div>
 
         <div class="form-group m-2">

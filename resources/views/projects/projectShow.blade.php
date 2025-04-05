@@ -125,8 +125,8 @@
 
 
             <div class="form-group">
-                <label for="doi">DOI</label>
-                <input type="text" name="doi" id="doi" class="form-control" required>
+                <label for="attackType">Attack Type</label>
+                <input type="text" name="attackType" id="attackType" class="form-control" required>
             </div>
 
 
@@ -204,7 +204,7 @@
                     <option value="countRecords" {{ request()->get('column') == 'countRecords' ? 'selected' : '' }}>Count of Records</option>
                     <option value="featuresCount" {{ request()->get('column') == 'featuresCount' ? 'selected' : '' }}>Features Count</option>
                     <option value="cite" {{ request()->get('column') == 'cite' ? 'selected' : '' }}>Cite</option>
-                    <option value="doi" {{ request()->get('column') == 'doi' ? 'selected' : '' }}>DOI</option>
+                    <option value="attackType" {{ request()->get('column') == 'attackType' ? 'selected' : '' }}>Attack Type</option>
                     <option value="downloadLinks" {{ request()->get('column') == 'downloadLinks' ? 'selected' : '' }}>Download Links</option>
                     <option value="abstract" {{ request()->get('column') == 'abstract' ? 'selected' : '' }}>Abstract</option>
                 </select>
@@ -245,7 +245,7 @@
                             </strong>
                         </div>
                     </th>
-                    <th scope="col">DOI</th>
+                    <th scope="col">Attack Type</th>
                     <th scope="col">Download Links</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -270,11 +270,11 @@
                     <td>
                         <div class="d-flex flex-column gap-2">
                             <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>
-                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.txt')">Download</button>
+                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.bib')">Download</button>
                         </div>
                     </td>
                     <td>{{ $dataset->citations }}</td>
-                    <td><a class="btn btn-dark btn-sm" href="{{ $dataset->doi }}" target="_blank">DOI</a></td>
+                    <td>{{ $dataset->attackType }}</td>
                     <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
                     <td>
                         @auth
@@ -347,19 +347,15 @@
 
 
     function downloadCitation(text, filename) {
-
-        const blob = new Blob([text], {
-            type: "text/plain"
-        });
-
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-
-        link.click();
-
-        URL.revokeObjectURL(link.href);
-    }
+    const blob = new Blob([text], {
+        type: "application/x-bibtex"
+    });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
 
 
     document.addEventListener("DOMContentLoaded", function() {

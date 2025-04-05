@@ -120,8 +120,8 @@
 
 
         <div class="form-group">
-            <label for="doi">DOI</label>
-            <input type="text" class="form-control" id="doi" name="doi">
+            <label for="attackType">Attack Type</label>
+            <input type="text" class="form-control" id="attackType" name="attackType">
         </div>
 
 

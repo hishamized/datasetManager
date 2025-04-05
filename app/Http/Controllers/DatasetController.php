@@ -27,7 +27,7 @@ class DatasetController extends Controller
             'featuresCount' => 'required|numeric',
             'cite' => 'required|string',
             'citations' => 'required|numeric',
-            'doi' => 'required|string|max:255',
+            'attackType' => 'required|string|max:255',
             'downloadLinks' => 'required|string|max:255',
             'abstract' => 'required|string',
             'custom_attributes' => 'nullable|array',
@@ -52,7 +52,7 @@ class DatasetController extends Controller
                 'publicallyAvailable' => $request->publicallyAvailable,
                 'countRecords' => $request->countRecords,
                 'featuresCount' => $request->featuresCount,
-                'doi' => $request->doi,
+                'attackType' => $request->attackType,
                 'cite' => $request->cite,
                 'citations' => $request->citations,
                 'downloadLinks' => $request->downloadLinks,
@@ -92,7 +92,7 @@ class DatasetController extends Controller
             'featuresCount' => 'required|numeric',
             'cite' => 'required|string',
             'citations' => 'required|numeric',
-            'doi' => 'required|string|max:255',
+            'attackType' => 'required|string|max:255',
             'downloadLinks' => 'required|string|max:255',
             'abstract' => 'required|string',
             'custom_attributes' => 'nullable|array',
@@ -117,7 +117,7 @@ class DatasetController extends Controller
                 'featuresCount' => $request->featuresCount,
                 'cite' => $request->cite,
                 'citations' => $request->citations,
-                'doi' => $request->doi,
+                'attackType' => $request->attackType,
                 'downloadLinks' => $request->downloadLinks,
                 'abstract' => $request->abstract,
                 'custom_attributes' => $encodedAttributes,
@@ -149,7 +149,7 @@ class DatasetController extends Controller
                     ->orWhere('countRecords', 'LIKE', "%$searchString%")
                     ->orWhere('featuresCount', 'LIKE', "%$searchString%")
                     ->orWhere('cite', 'LIKE', "%$searchString%")
-                    ->orWhere('doi', 'LIKE', "%$searchString%")
+                    ->orWhere('attackType', 'LIKE', "%$searchString%")
                     ->orWhere('downloadLinks', 'LIKE', "%$searchString%")
                     ->orWhere('abstract', 'LIKE', "%$searchString%");
             })
@@ -186,7 +186,7 @@ class DatasetController extends Controller
          $dataset->featuresCount = $contributionRequest->featuresCount;
          $dataset->cite = $contributionRequest->cite;
          $dataset->citations = $contributionRequest->citations;
-         $dataset->doi = $contributionRequest->doi;
+         $dataset->attackType = $contributionRequest->attackType;
          $dataset->downloadLinks = $contributionRequest->downloadLinks;
          $dataset->abstract = $contributionRequest->abstract;
          $dataset->save();

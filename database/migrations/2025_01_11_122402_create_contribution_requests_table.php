@@ -18,17 +18,17 @@ class CreateContributionRequestsTable extends Migration
             $table->string('full_name');
             $table->string('email');
             $table->string('phone_number');
-            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade'); // foreign key to projects table
+            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
             $table->integer('serialNumber');
             $table->year('year');
             $table->string('dataset');
             $table->string('kindOfTraffic');
-            $table->enum('publicallyAvailable', ['yes', 'no']);
-            $table->string('countRecords');
-            $table->integer('featuresCount');
+            $table->enum('publicallyAvailable', ['yes', 'no'])->nullable();
+            $table->string('countRecords')->nullable();
+            $table->integer('featuresCount')->nullable();
             $table->text('cite');
             $table->integer('citations');
-            $table->string('doi')->nullable();
+            $table->string('attackType')->nullable();
             $table->text('downloadLinks')->nullable();
             $table->text('abstract');
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');

@@ -27,7 +27,7 @@ class Dataset extends Model
         'featuresCount',
         'cite',
         'citations',
-        'doi',
+        'attackType',
         'downloadLinks',
         'abstract',
         'custom_attributes'

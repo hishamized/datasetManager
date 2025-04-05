@@ -23,7 +23,7 @@ class ContributionRequest extends Model
         'featuresCount',
         'cite',
         'citations',
-        'doi',
+        'attackType',
         'downloadLinks',
         'abstract',
         'status',

@@ -52,7 +52,7 @@
                     <th>Features Count</th>
                     <th>CITE</th>
                     <th>Number of citations</th>
-                    <th>DOI</th>
+                    <th>Attack Type</th>
                     <th>Download Links</th>
                     <th>Status</th>
                     <th>Submitted At</th>
@@ -87,7 +87,7 @@
                         </div>
                     </td>
                     <td>{{ $request->citations }}</td>
-                    <td> <a href="{{ $request->doi }}" class="btn btn-dark btn-sm">DOI</a>  </td>
+                    <td> <a href="{{ $request->attackType }}" class="btn btn-dark btn-sm">Attack Type</a>  </td>
                     <td><a href="{{ $request->downloadLinks }}" class="btn btn-success btn-sm">Download</a></td>
                     <td>
                         @if($request->status == 'pending')

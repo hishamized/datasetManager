@@ -20,12 +20,12 @@ class CreateDatasetsTable extends Migration
             $table->year('year');
             $table->string('dataset');
             $table->string('kindOfTraffic');
-            $table->enum('publicallyAvailable', ['yes', 'no']);
-            $table->string('countRecords');
-            $table->integer('featuresCount');
+            $table->enum('publicallyAvailable', ['yes', 'no'])->nullable();
+            $table->string('countRecords')->nullable();
+            $table->integer('featuresCount')->nullable();
             $table->text('cite');
             $table->integer('citations');
-            $table->string('doi')->nullable();
+            $table->string('attackType')->nullable();
             $table->text('downloadLinks')->nullable();
             $table->text('abstract');
             // $table->json('custom_attributes')->nullable();
