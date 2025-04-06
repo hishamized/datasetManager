@@ -97,9 +97,9 @@
 
         <a href="{{ route('project.show.publicly', $project->id) }}" class="btn btn-danger">Reset</a>
     </form>
-
+    <button class="btn btn-success my-3" onclick="exportTableToExcel('datasets-table')">Download as Excel</button>
     <div class="table-responsive mt-4">
-        <table class="table table-hover table-bordered table-striped">
+        <table class="table table-hover table-bordered table-striped" id="datasets-table">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Serial Number</th>
@@ -120,7 +120,7 @@
                     </th>
                     <th scope="col">Attack Type</th>
                     <th scope="col">Download Links</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col" class="no-export">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -141,16 +141,23 @@
                     <td>{{ $dataset->countRecords }}</td>
                     <td>{{ $dataset->featuresCount }}</td>
                     <td>
-                    <div class="d-flex flex-column gap-2">
+                    <td>
+                        <span class="cite-text d-none">{{ $dataset->cite }}</span>
+                        <div class="d-flex flex-column gap-2 d-print-none">
                             <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>
                             <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.bib')">Download</button>
                         </div>
                     </td>
+                    </td>
                     <td>{{ $dataset->citations }}</td>
                     <td>{{ $dataset->attackType }}</td>
-                    <td><a class="btn btn-info btn-sm" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a></td>
-
                     <td>
+                        <span class="download-link d-none">{{ $dataset->downloadLinks }}</span>
+                        <a class="btn btn-info btn-sm d-print-none" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a>
+                    </td>
+
+
+                    <td class="no-export">
                         <a href="{{ route('showDatasetDetailsPublicly', $dataset->id) }}" class="btn btn-primary btn-sm">Dataset Overview</a>
                     </td>
                 </tr>
@@ -162,6 +169,8 @@
                 @endforeach
             </tbody>
         </table>
+
+
         <div class="d-flex flex-row justify-content-end align-content-center p-2">
             <strong class="text-danger">(*)</strong>
             <p>Total Citations as of {{ \Carbon\Carbon::now()->format('F Y') }} </p>
@@ -209,6 +218,34 @@
     link.click();
     URL.revokeObjectURL(link.href);
 }
+
+function exportTableToExcel(tableId) {
+        var table = document.getElementById(tableId);
+        const citeCells = table.querySelectorAll('td');
+        citeCells.forEach(cell => {
+            const citeText = cell.querySelector('.cite-text');
+            if (citeText) {
+                cell.innerText = citeText.innerText;
+            }
+
+            const downloadLink = cell.querySelector('.download-link');
+            if (downloadLink) {
+                cell.innerText = downloadLink.innerText;
+            }
+        });
+
+        const allRows = table.querySelectorAll("tr.abstract-row");
+        allRows.forEach(row => row.remove());
+
+        const clonedTable = table.cloneNode(true);
+
+        clonedTable.querySelectorAll(".no-export").forEach(el => el.remove());
+
+        var workbook = XLSX.utils.table_to_book(clonedTable, {
+            sheet: "Datasets"
+        });
+        XLSX.writeFile(workbook, "datasets.xlsx");
+    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
