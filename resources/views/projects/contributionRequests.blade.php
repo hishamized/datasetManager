@@ -105,7 +105,7 @@
 
         <div class="form-group">
             <label for="featuresCount">Features Count</label>
-            <input type="number" class="form-control" id="featuresCount" name="featuresCount" required>
+            <input type="text" class="form-control" id="featuresCount" name="featuresCount" required>
         </div>
 
         <div class="form-group">

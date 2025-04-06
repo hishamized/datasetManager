@@ -17,6 +17,10 @@ Route::get('dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::get('contact', function () {
+    return view('contact');
+})->name('contact');
+
 Route::prefix('guest')->group(function () {
     Route::get('showProjectsPublicly', [GuestController::class, 'showProjectsPublicly'])->name('showProjectsPublicly');
     Route::get('projects/view/{id}', [GuestController::class, 'showProjectPublicly'])->name('project.show.publicly');

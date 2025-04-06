@@ -72,7 +72,7 @@
 
         <div class="form-group m-2">
             <label for="featuresCount">Features Count</label>
-            <input type="number" class="form-control" id="featuresCount" name="featuresCount" value="{{ old('featuresCount', $dataset->featuresCount ?? '') }}" required>
+            <input type="text" class="form-control" id="featuresCount" name="featuresCount" value="{{ old('featuresCount', $dataset->featuresCount ?? '') }}" required>
         </div>
 
         <div class="form-group">

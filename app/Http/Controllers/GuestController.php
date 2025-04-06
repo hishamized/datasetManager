@@ -193,7 +193,7 @@ class GuestController extends Controller
             'kindOfTraffic' => 'required|string|max:255',
             'publicallyAvailable' => 'required|in:yes,no',
             'countRecords' => 'required|string|max:255',
-            'featuresCount' => 'required|integer',
+            'featuresCount' => 'required|string|max:255',
             'cite' => 'required|string',
             'citations' => 'required|integer',
             'attackType' => 'nullable|string|max:255',

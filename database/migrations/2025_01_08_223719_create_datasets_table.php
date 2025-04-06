@@ -22,7 +22,7 @@ class CreateDatasetsTable extends Migration
             $table->string('kindOfTraffic');
             $table->enum('publicallyAvailable', ['yes', 'no'])->nullable();
             $table->string('countRecords')->nullable();
-            $table->integer('featuresCount')->nullable();
+            $table->string('featuresCount')->nullable();
             $table->text('cite');
             $table->integer('citations');
             $table->string('attackType')->nullable();
