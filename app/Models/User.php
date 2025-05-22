@@ -38,6 +38,18 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
+    public function initiatorChats(){
+        return $this->hasMany(Chat::class, 'initiator_id');
+    }
+
+    public function targetChats(){
+        return $this->hasMany(Chat::class, 'target_id');
+    }
+
+    public function messages(){
+        return $this->hasMany(Message::class,'sender_id');
+    }
+
     public function authorization(){
         return $this->authorization;
     }

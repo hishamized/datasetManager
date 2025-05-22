@@ -66,7 +66,7 @@
     <a href="{{ route('project.create') }}" class="btn btn-success my-2">Create New Project</a>
         <table class="table table-bordered">
             <thead>
-                <tr>
+                <tr class="text-nowrap">
                     <th>Project Title</th>
                     <th>Description</th>
                     <th>Start Date</th>

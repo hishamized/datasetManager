@@ -101,7 +101,7 @@
     <div class="table-responsive mt-4">
         <table class="table table-hover table-bordered table-striped" id="datasets-table">
             <thead class="thead-dark">
-                <tr>
+                <tr class="text-nowrap">
                     <th scope="col">Serial Number</th>
                     <th scope="col">Dataset</th>
                     <th scope="col">Year</th>
@@ -130,7 +130,7 @@
                     <td>
                         <div class="d-flex align-items-stretch">
                             <button class="btn btn-sm btn-lnk toggle-abstract" data-dataset="{{ $dataset->id }}" onclick="toggleAbstract('{{ $dataset->id }}')">
-                                ⬇
+                            <i class="bi bi-arrow-bar-up"></i>
                             </button>
                             <p> {{ $dataset->dataset }} </p>
                         </div>
@@ -141,24 +141,29 @@
                     <td>{{ $dataset->countRecords }}</td>
                     <td>{{ $dataset->featuresCount }}</td>
                     <td>
-                    <td>
-                        <span class="cite-text d-none">{{ $dataset->cite }}</span>
                         <div class="d-flex flex-column gap-2 d-print-none">
-                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>
-                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.bib')">Download</button>
+                            <button title="Copy" class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">
+                            <i class="bi bi-clipboard2-check-fill"></i>
+                            </button>
+                            <button title="Download" class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.bib')">
+                            <i class="bi bi-file-earmark-arrow-down-fill"></i>
+                            </button>
                         </div>
-                    </td>
                     </td>
                     <td>{{ $dataset->citations }}</td>
                     <td>{{ $dataset->attackType }}</td>
                     <td>
                         <span class="download-link d-none">{{ $dataset->downloadLinks }}</span>
-                        <a class="btn btn-info btn-sm d-print-none" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a>
+                        <a title="Download Dataset" class="btn btn-info btn-sm d-print-none" href="{{ $dataset->downloadLinks }}" target="_blank">
+                        <i class="bi bi-cloud-arrow-down-fill"></i>
+                        </a>
                     </td>
 
 
                     <td class="no-export">
-                        <a href="{{ route('showDatasetDetailsPublicly', $dataset->id) }}" class="btn btn-primary btn-sm">Dataset Overview</a>
+                        <a title="View Dataset" href="{{ route('showDatasetDetailsPublicly', $dataset->id) }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-eye-fill"></i>
+                        </a>
                     </td>
                 </tr>
 
@@ -171,7 +176,7 @@
         </table>
 
 
-        <div class="d-flex flex-row justify-content-end align-content-center p-2">
+        <div class="d-flex flex-row justify-content-start align-content-start p-2">
             <strong class="text-danger">(*)</strong>
             <p>Total Citations as of {{ \Carbon\Carbon::now()->format('F Y') }} </p>
         </div>
@@ -188,11 +193,11 @@
         if (abstractRow.style.display === 'none') {
 
             abstractRow.style.display = 'table-row';
-            button.textContent = '⬆';
+            button.innerHTML = '<i class="bi bi-arrow-bar-up"></i>';
         } else {
 
             abstractRow.style.display = 'none';
-            button.textContent = '⬇';
+            button.innerHTML = '<i class="bi bi-arrow-bar-down"></i>';
         }
     }
 

@@ -58,8 +58,25 @@
 
     @auth
     <div class="container">
+    <form action="{{ route('importExcelFile') }}" method="POST" enctype="multipart/form-data" class="my-3 w-100 p-4 border rounded shadow-sm">
+            @csrf
+            <input type="hidden" name="project_id" value="{{ $project->id }}">
+
+            <div class="mb-3">
+                <label for="csv_file" class="form-label">Choose CSV File</label>
+                <input type="file" name="csv_file" id="csv_file" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Import Excel File</button>
+            <a href="{{ route('download.sample.csv') }}" class="my-2 btn btn-outline-success">
+                Download Sample CSV
+            </a>
+
+        </form>
         <button class="btn btn-primary mb-4" id="toggleFormBtn">Add Dataset</button>
         <a href="{{ route('manageContributionRequests', $project->id) }}" class="btn btn-danger mb-4">Contribution Requests</a>
+
+
     </div>
     <div id="datasetForm" style="display: none;">
         <form action="{{ route('dataset.store') }}" method="POST">
@@ -230,7 +247,7 @@
 
         <table class="table table-hover table-bordered table-striped" id="datasets-table">
             <thead class="thead-dark">
-                <tr>
+                <tr class="text-nowrap fs-6 text-start">
                     <th scope="col">Serial Number</th>
                     <th scope="col">Dataset</th>
                     <th scope="col">Year</th>
@@ -256,10 +273,10 @@
                 @foreach($datasets as $dataset)
                 <tr id="dataset-row-{{ $dataset->id }}">
                     <td>{{ $dataset->serialNumber }}</td>
-                    <td>
-                        <div class="d-flex align-items-stretch">
+                    <td class="text-nowrap">
+                        <div class="d-flex align-content-center">
                             <button class="btn btn-sm btn-lnk toggle-abstract" data-dataset="{{ $dataset->id }}" onclick="toggleAbstract('{{ $dataset->id }}')">
-                                ⬇
+                            <i class="bi bi-arrow-bar-down"></i>
                             </button>
                             <p> {{ $dataset->dataset }} </p>
                         </div>
@@ -270,28 +287,43 @@
                     <td>{{ $dataset->countRecords }}</td>
                     <td>{{ $dataset->featuresCount }}</td>
 
-                    <td>
+                    <td class="text-center align-middle">
                         <span class="cite-text d-none">{{ $dataset->cite }}</span>
-                        <div class="d-flex flex-column gap-2 d-print-none">
-                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>
-                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.bib')">Download</button>
+                        <div class="d-flex flex-column gap-2 d-print-none justify-content-center align-items-center">
+                            <button title="Copy" class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">
+                                <i class="bi bi-clipboard2-check-fill"></i>
+                            </button>
+                            <button title="Download" class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.bib')">
+                                <i class="bi bi-file-earmark-arrow-down-fill"></i>
+                            </button>
                         </div>
                     </td>
+
                     <td>{{ $dataset->citations }}</td>
                     <td>{{ $dataset->attackType }}</td>
                     <td>
                         <span class="download-link d-none">{{ $dataset->downloadLinks }}</span>
-                        <a class="btn btn-info btn-sm d-print-none" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a>
+                        <a title="Download Dataset" class="btn btn-info btn-sm d-print-none" href="{{ $dataset->downloadLinks }}" target="_blank">
+                            <i class="bi bi-cloud-arrow-down-fill"></i>
+                        </a>
                     </td>
                     <td class="no-export">
                         @auth
-                        <a href="{{ route('dataset-details', $dataset->id) }}" class="btn btn-success btn-sm my-2">Dataset Overview</a>
-                        <a href="{{ route('showEditDataset', $dataset->id) }}" class="btn btn-warning btn-sm my-2">Edit</a>
-                        <form action="{{ route('deleteDataset', $dataset->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm my-2" onclick="return confirm('Are you sure you want to delete this dataset?')">Delete</button>
-                        </form>
+                        <div class="d-flex flex-row gap-2 h-100 align-items-center">
+                            <a title="View Dataset" href="{{ route('dataset-details', $dataset->id) }}" class="btn btn-success btn-sm my-2">
+                                <i class="bi bi-eye-fill"></i>
+                            </a>
+                            <a title="Edit Dataset" href="{{ route('showEditDataset', $dataset->id) }}" class="btn btn-warning btn-sm my-2">
+                                <i class="bi bi-pen-fill"></i>
+                            </a>
+                            <form action="{{ route('deleteDataset', $dataset->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button title="Delete Dataset" type="submit" class="btn btn-danger btn-sm my-2" onclick="return confirm('Are you sure you want to delete this dataset?')">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </form>
+                        </div>
                         @endauth
                     </td>
                 </tr>
@@ -303,7 +335,7 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="d-flex flex-row justify-content-end align-content-center p-2">
+        <div class="d-flex flex-row justify-content-start align-content-start p-2">
             <strong class="text-danger">(*)</strong>
             <p>Total Citations as of {{ \Carbon\Carbon::now()->format('F Y') }} </p>
         </div>
@@ -333,11 +365,11 @@
         if (abstractRow.style.display === 'none') {
 
             abstractRow.style.display = 'table-row';
-            button.textContent = '⬆';
+            button.innerHTML = '<i class="bi bi-arrow-bar-up"></i>';
         } else {
 
             abstractRow.style.display = 'none';
-            button.textContent = '⬇';
+            button.innerHTML = '<i class="bi bi-arrow-bar-down"></i>';
         }
     }
 

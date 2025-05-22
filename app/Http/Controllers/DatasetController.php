@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Models\Dataset;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Project;
@@ -264,5 +266,137 @@ class DatasetController extends Controller
 
      return view('projects.datasetDetails', compact('dataset'));
  }
+
+ public function uploadExcelFile(Request $request)
+{
+    $request->validate([
+        'project_id' => 'required|integer|exists:projects,id',
+        'csv_file' => 'required|file|mimes:csv,txt|max:2048',
+    ]);
+
+    $file = $request->file('csv_file');
+    $projectId = $request->input('project_id');
+
+    $path = $file->getRealPath();
+    $rows = array_map('str_getcsv', file($path));
+    $header = array_map('trim', array_shift($rows));
+
+    $expected = [
+        'serialNumber', 'year', 'dataset', 'kindOfTraffic', 'publicallyAvailable',
+        'countRecords', 'featuresCount', 'cite', 'citations', 'attackType',
+        'downloadLinks', 'abstract', 'custom_attributes'
+    ];
+
+    if ($header !== $expected) {
+        return back()->with('error', 'CSV headers do not match the expected format.');
+    }
+
+    $maxSerial = Dataset::where('project_id', $projectId)->max('serialNumber') ?? 0;
+
+    $datasets = [];
+    foreach ($rows as $index => $row) {
+        $data = array_combine($header, $row);
+
+        if (Dataset::where('serialNumber', $data['serialNumber'])->exists()) {
+            $maxSerial++;
+            $data['serialNumber'] = $maxSerial;
+        }
+
+        $datasets[] = [
+            'project_id' => $projectId,
+            'serialNumber' => (int) $data['serialNumber'],
+            'year' => $data['year'],
+            'dataset' => $data['dataset'],
+            'kindOfTraffic' => $data['kindOfTraffic'],
+            'publicallyAvailable' => $data['publicallyAvailable'] ?? null,
+            'countRecords' => $data['countRecords'] ?? null,
+            'featuresCount' => $data['featuresCount'] ?? null,
+            'cite' => $data['cite'],
+            'citations' => (int) $data['citations'],
+            'attackType' => $data['attackType'] ?? null,
+            'downloadLinks' => $data['downloadLinks'] ?? null,
+            'abstract' => $data['abstract'],
+            'custom_attributes' => $data['custom_attributes'] ?? null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+    }
+
+    Dataset::insert($datasets);
+
+    return back()->with('success', 'CSV data uploaded successfully.');
+}
+
+public function downloadSampleCsv()
+{
+    $columns = Schema::getColumnListing('datasets');
+
+    $excluded = ['id', 'project_id', 'created_at', 'updated_at'];
+    $headers = array_diff($columns, $excluded);
+
+    $rows = [];
+    for ($i = 1; $i <= 10; $i++) {
+        $row = [];
+        foreach ($headers as $column) {
+            switch ($column) {
+                case 'serialNumber':
+                    $row[] = $i;
+                    break;
+                case 'year':
+                    $row[] = 2020 + $i;
+                    break;
+                case 'dataset':
+                    $row[] = "Dataset $i";
+                    break;
+                case 'kindOfTraffic':
+                    $row[] = 'Normal';
+                    break;
+                case 'publicallyAvailable':
+                    $row[] = 'yes';
+                    break;
+                case 'countRecords':
+                    $row[] = '10000';
+                    break;
+                case 'featuresCount':
+                    $row[] = '42';
+                    break;
+                case 'cite':
+                    $row[] = "Citation text for dataset $i";
+                    break;
+                case 'citations':
+                    $row[] = rand(100, 500);
+                    break;
+                case 'attackType':
+                    $row[] = 'DoS';
+                    break;
+                case 'downloadLinks':
+                    $row[] = 'http://example.com';
+                    break;
+                case 'abstract':
+                    $row[] = "This is a short abstract for dataset $i.";
+                    break;
+                case 'custom_attributes':
+                    $row[] = '{"label_type":"binary","source":"cic"}';
+                    break;
+                default:
+                    $row[] = '';
+            }
+        }
+        $rows[] = $row;
+    }
+
+    return new StreamedResponse(function () use ($headers, $rows) {
+        $handle = fopen('php://output', 'w');
+        fputcsv($handle, $headers);
+        foreach ($rows as $row) {
+            fputcsv($handle, $row);
+        }
+        fclose($handle);
+    }, 200, [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => 'attachment; filename="sample_dataset.csv"',
+    ]);
+}
+
 
 }

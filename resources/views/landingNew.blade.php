@@ -85,26 +85,25 @@
         <table class="table table-hover table-bordered table-striped" id="datasets-table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Serial Number</th>
-                    <th scope="col">Dataset</th>
-                    <th scope="col">Year</th>
-                    <th scope="col">Kind of Traffic</th>
-                    <th scope="col">Publically Available</th>
-                    <th scope="col">Count of Records</th>
-                    <th scope="col">Features Count</th>
-                    <th scope="col">CITE</th>
-                    <th scope="col">
+                    <th scope="col" class="text-nowrap">Serial Number</th>
+                    <th scope="col" class="text-nowrap">Dataset</th>
+                    <th scope="col" class="text-nowrap">Year</th>
+                    <th scope="col" class="text-nowrap">Kind of Traffic</th>
+                    <th scope="col" class="text-nowrap">Publically Available</th>
+                    <th scope="col" class="text-nowrap">Count of Records</th>
+                    <th scope="col" class="text-nowrap">Features Count</th>
+                    <th scope="col" class="text-nowrap">CITE</th>
+                    <th scope="col" class="text-nowrap">
                         <div class="d-flex flex-row gap-2">
                             Citations
-                            <strong class="text-danger">
-                                (*)
-                            </strong>
+                            <strong class="text-danger">(*)</strong>
                         </div>
                     </th>
-                    <th scope="col">Attack Type</th>
-                    <th scope="col">Download Links</th>
-                    <th scope="col" class="no-export">Actions</th>
+                    <th scope="col" class="text-nowrap">Attack Type</th>
+                    <th scope="col" class="text-nowrap">Download Links</th>
+                    <th scope="col" class="no-export text-nowrap">Actions</th>
                 </tr>
+
             </thead>
             <tbody>
                 @foreach($datasets as $dataset)
@@ -113,7 +112,7 @@
                     <td>
                         <div class="d-flex align-items-stretch">
                             <button class="btn btn-sm btn-lnk toggle-abstract" data-dataset="{{ $dataset->id }}" onclick="toggleAbstract('{{ $dataset->id }}')">
-                                ⬇
+                            <i class="bi bi-arrow-bar-down"></i>
                             </button>
                             <p> {{ $dataset->dataset }} </p>
                         </div>
@@ -126,8 +125,12 @@
                     <td>
                         <span class="cite-text d-none">{{ $dataset->cite }}</span>
                         <div class="d-flex flex-column gap-2 d-print-none">
-                            <button class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">Copy</button>
-                            <button class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.bib')">Download</button>
+                            <button title="Copy" class="btn btn-primary btn-sm" onclick="copyToClipboard(`{!! addslashes($dataset->cite) !!}`)">
+                            <i class="bi bi-clipboard2-check-fill"></i>
+                            </button>
+                            <button title="Download" class="btn btn-secondary btn-sm" onclick="downloadCitation(`{!! addslashes($dataset->cite) !!}`, 'cite_{{ $dataset->id }}.bib')">
+                            <i class="bi bi-file-earmark-arrow-down-fill"></i>
+                            </button>
                         </div>
                     </td>
 
@@ -135,12 +138,16 @@
                     <td>{{ $dataset->attackType }}</td>
                     <td>
                         <span class="download-link d-none">{{ $dataset->downloadLinks }}</span>
-                        <a class="btn btn-info btn-sm d-print-none" href="{{ $dataset->downloadLinks }}" target="_blank">Download</a>
+                        <a title="Download Dataset" class="btn btn-info btn-sm d-print-none" href="{{ $dataset->downloadLinks }}" target="_blank">
+                        <i class="bi bi-cloud-arrow-down-fill"></i>
+                        </a>
                     </td>
 
 
                     <td class="no-export">
-                        <a href="{{ route('showDatasetDetailsPublicly', $dataset->id) }}" class="btn btn-primary btn-sm">Dataset Overview</a>
+                        <a title="View Dataset" href="{{ route('showDatasetDetailsPublicly', $dataset->id) }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-eye-fill"></i>
+                        </a>
                     </td>
                 </tr>
 
@@ -151,7 +158,7 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="d-flex flex-row justify-content-end align-content-center p-2">
+        <div class="d-flex flex-row justify-content-start align-content-start p-2">
             <strong class="text-danger">(*)</strong>
             <p>Total Citations as of {{ \Carbon\Carbon::now()->format('F Y') }} </p>
         </div>
@@ -201,11 +208,11 @@
         if (abstractRow.style.display === 'none') {
 
             abstractRow.style.display = 'table-row';
-            button.textContent = '⬆';
+            button.innerHTML = '<i class="bi bi-arrow-bar-up"></i>';
         } else {
 
             abstractRow.style.display = 'none';
-            button.textContent = '⬇';
+            button.innerHTML = '<i class="bi bi-arrow-bar-down"></i>';
         }
     }
 
@@ -261,8 +268,8 @@
     }
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <script>
     $(document).ready(function() {
         var $sideMenu = $('#sideMenu');

@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DatasetController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\ChatController;
 use App\Models\ContributionRequest;
 use Illuminate\Support\Facades\Route;
 
@@ -75,5 +76,15 @@ Route::middleware('auth')->group(function () {
 
     Route::get('projects/dataset-details/{id}', [DatasetController::class, 'showDatasetDetails'])->name('dataset-details');
     Route::post('projects/search', [ProjectController::class, 'searchProjects'])->name('projects.search');
+
+    Route::get('/dashboard/chats/{user_id}', [ChatController::class, 'showChatsPage'])->name('showChatsPage');
+    Route::get('/dashboard/chats/showChatbox/{chat_id}', [ChatController::class, 'showChatbox'])->name('chat.showChatbox');
+    Route::get('chat/refresh/messages/{chat_id}', [ChatController::class, 'refreshMessages'])->name('chat.refreshMessages');
+    Route::post('/chats/startChat', [ChatController::class, 'startChat'])->name('chats.startChat');
+    Route::post('/chats/sendMessage', [Chatcontroller::class, 'sendMessage'])->name('chat.sendMessage');
+    Route::post('/chat/mark-seen', [ChatController::class, 'markSeen'])->name('chat.markSeen');
+
+    Route::post('/project/upload/excel', [DatasetController::class, 'uploadExcelFile'])->name('importExcelFile');
+    Route::get('/download-sample-csv', [DatasetController::class, 'downloadSampleCsv'])->name('download.sample.csv');
 
 });

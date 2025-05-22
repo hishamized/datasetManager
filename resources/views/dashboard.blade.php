@@ -26,6 +26,9 @@
         <li class="nav-item">
             <a href="{{ route('showSignUpPage') }}" class="nav-link text-white">Add a New Admin</a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('showChatsPage', ['user_id' => auth()->user()->id ] ) }}" class="nav-link text-white">Chats</a>
+        </li>
         @endif
     </ul>
 </div>
